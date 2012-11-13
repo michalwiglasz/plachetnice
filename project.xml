@@ -16,6 +16,7 @@
 	<!-- FPGA part -->
 	<fpga architecture="gp" dcmfrequency="20MHz">
 		<file>pwm.vhd</file>
+		<file>servo_reg.vhd</file>
 		<file>top.vhd</file>
 	</fpga>
 

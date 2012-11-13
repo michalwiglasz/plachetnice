@@ -9,7 +9,7 @@ entity PWM is
    );
    port (
       CLK, RESET: in std_logic;
-      MAX_VAL: std_logic_vector(BITS-1 downto 0);
+      MAX_VAL: in std_logic_vector(BITS-1 downto 0);
       FLIP_VAL: in std_logic_vector(BITS-1 downto 0);
       EN: in std_logic;
 
@@ -49,7 +49,7 @@ begin
 
       else
          -- if EN = 0, disable output
-         DOUT <= '0'
+         DOUT <= '0';
       end If;
    end process;
 end basic;
