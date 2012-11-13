@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project outputprefix="testled">
+
+	<!--  Project description -->
+	<name>Plachetnice</name>
+	<author>AH, MW</author>
+	<authoremail>xwigla00@stud.fit.vutbr.cz</authoremail>
+	<revision>20121107</revision>
+	<description>Plachetnice na kolečkách</description>
+
+	<!--  MCU part -->
+	<mcu>
+		<file>main.c</file>
+	</mcu>
+
+	<!-- FPGA part -->
+	<fpga architecture="gp" dcmfrequency="20MHz">
+		<file>pwm.vhd</file>
+		<file>top.vhd</file>
+	</fpga>
+
+</project>
