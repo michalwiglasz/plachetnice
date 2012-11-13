@@ -10,6 +10,7 @@ architecture main of tlv_gp_ifc is
 
    -- X <= (others => 'Z');
 
+   -- pulse width modulation module
    component PWM is
       generic (
          BITS: integer
@@ -18,12 +19,12 @@ architecture main of tlv_gp_ifc is
          CLK, RESET: in std_logic;
          MAX_VAL: std_logic_vector(BITS-1 downto 0);
          FLIP_VAL: in std_logic_vector(BITS-1 downto 0);
+         EN: in std_logic
 
          DOUT: out std_logic
       );
    end component;
 
-   signal servo: std_logic;
 
    begin
    led_controller: PWM
@@ -61,7 +62,8 @@ architecture main of tlv_gp_ifc is
          RESET => RESET,
          MAX_VAL =>  "1100001101010000000",  -- 400 000 = 20 ms
          --FLIP_VAL => "0000111010100110000",  --  30 000 = 1500 us
-         FLIP_VAL => "0000010111011100000",  --  600 us
+         FLIP_VAL => "0000010111011100000",  --  600 us,
+         EN => '1',
          DOUT => X(16)
       );
 

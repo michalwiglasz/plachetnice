@@ -11,6 +11,7 @@ entity PWM is
       CLK, RESET: in std_logic;
       MAX_VAL: std_logic_vector(BITS-1 downto 0);
       FLIP_VAL: in std_logic_vector(BITS-1 downto 0);
+      EN: in std_logic;
 
       DOUT: out std_logic
    );
@@ -28,19 +29,27 @@ begin
 
    process(RESET, CLK)
    begin
-      if (RESET = '1') then
-         cnt <= (others => '0');
-         DOUT <= '1';
-      elsif CLK'event and CLK = '1' then
-         if (rst='1') then
+      if (EN = '1') then
+         if (RESET = '1') then
             cnt <= (others => '0');
             DOUT <= '1';
-         else
-            cnt <= cnt + 1;
-            if (flip = '1') then
-               DOUT <= '0';
+
+         elsif CLK'event and CLK = '1' then
+            if (rst='1') then
+               cnt <= (others => '0');
+               DOUT <= '1';
+
+            else
+               cnt <= cnt + 1;
+               if (flip = '1') then
+                  DOUT <= '0';
+               end If;
             end If;
          end If;
+
+      else
+         -- if EN = 0, disable output
+         DOUT <= '0'
       end If;
    end process;
 end basic;
