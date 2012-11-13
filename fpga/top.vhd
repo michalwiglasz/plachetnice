@@ -27,31 +27,6 @@ architecture main of tlv_gp_ifc is
 
 
    begin
-   led_controller: PWM
-      generic map (
-         BITS => 25
-      )
-      port map (
-         CLK => CLK,
-         RESET => RESET,
-         MAX_VAL =>  "1001100010010110100000000",
-         FLIP_VAL => "0100110001001011010000000",
-         DOUT => X(6)
-      );
-
-
-   led_controller_2: PWM
-      generic map (
-         BITS => 24
-      )
-      port map (
-         CLK => CLK,
-         RESET => RESET,
-         MAX_VAL =>  "100110001001011010000000",
-         FLIP_VAL => "010011000100101101000000",
-         DOUT => X(7)
-      );
-
 
    servo_controller: PWM
       generic map (
