@@ -45,7 +45,8 @@ architecture main of tlv_gp_ifc is
          WE: in std_logic;
 
          DIN: in std_logic_vector(BITS-1 downto 0);
-         DIN_MUX: in std_logic;
+         DOUT: out std_logic_vector(BITS-1 downto 0);
+         MUX: in std_logic;
 
          DOUT_MAX: out std_logic_vector(BITS-1 downto 0);
          DOUT_FLIP: out std_logic_vector(BITS-1 downto 0)
@@ -69,33 +70,35 @@ architecture main of tlv_gp_ifc is
    end component;
 
 
-   signal spi_addr: std_logic_vector(1 downto 0);
+   signal spi_addr: std_logic_vector(0 downto 0);
    signal spi_din: std_logic_vector(15 downto 0);
    signal spi_dout: std_logic_vector(15 downto 0);
    signal spi_we : std_logic;
 
    signal servo_a_en: std_logic := '1';
-   signal servo_a_max: std_logic_vector(15 downto 0);
-   signal servo_a_flip: std_logic_vector(15 downto 0);
+   signal servo_a_max: std_logic_vector(18 downto 0);
+   signal servo_a_flip: std_logic_vector(18 downto 0);
 
-   signal servo_a_pwm_max: std_logic_vector(18 downto 0);
-   signal servo_a_pwm_flip: std_logic_vector(18 downto 0);
+   signal led_max: std_logic_vector(24 downto 0);
+   signal led_flip: std_logic_vector(24 downto 0);
 
 begin
 
-   spi_din <= servo_a_max when spi_addr(0) = '0' else servo_a_flip;
-
    --"1100001101010000000",  -- 400 000 = 20 ms
-   servo_a_pwm_max <= servo_a_max & "000";
-
    -- "0000010111011100000",  --  600 us,
-   servo_a_pwm_flip <= servo_a_flip & "000";
+   servo_a_max(2 downto 0) <= "000";
+   servo_a_flip(2 downto 0) <= "000";
+
+   servo_a_max(18 downto 3) <= "1100001101010000";
+
+   led_max <= servo_a_max & "000000";
+   led_flip <= servo_a_flip & "000000";
 
    spi: SPI_adc
       generic map (
         ADDR_WIDTH => 8,
         DATA_WIDTH => 16,
-        ADDR_OUT_WIDTH => 2,
+        ADDR_OUT_WIDTH => 1,
         BASE_ADDR  => 16#E0#  -- base address 0xE0
      )
      port map (
@@ -124,10 +127,11 @@ begin
 
          WE => spi_we,
          DIN => spi_dout,
-         DIN_MUX => spi_addr(0),
+         DOUT => spi_din,
+         MUX => spi_addr(0),
 
-         DOUT_MAX => servo_a_max,
-         DOUT_FLIP => servo_a_flip
+         DOUT_MAX => open,
+         DOUT_FLIP => servo_a_flip(18 downto 3)
       );
 
    servo_a_pwm: PWM
@@ -137,10 +141,24 @@ begin
       port map (
          CLK => CLK,
          RESET => RESET,
-         MAX_VAL => servo_a_pwm_max,
-         FLIP_VAL => servo_a_pwm_flip,
+         MAX_VAL => servo_a_max,
+         FLIP_VAL => servo_a_flip,
          EN => servo_a_en,
          DOUT => X(16)
+      );
+
+
+   led_pwm: PWM
+      generic map (
+         BITS => 25
+      )
+      port map (
+         CLK => CLK,
+         RESET => RESET,
+         MAX_VAL => led_max,
+         FLIP_VAL => led_flip,
+         EN => servo_a_en,
+         DOUT => LEDF
       );
 
 end main;
