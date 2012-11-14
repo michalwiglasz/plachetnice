@@ -99,7 +99,7 @@ begin
         ADDR_WIDTH => 8,
         DATA_WIDTH => 16,
         ADDR_OUT_WIDTH => 1,
-        BASE_ADDR  => 16#E0#  -- base address 0xE0
+        BASE_ADDR  => 16#E000#  -- base address 0xE000
      )
      port map (
         CLK      => CLK,
