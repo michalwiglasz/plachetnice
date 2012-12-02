@@ -57,11 +57,11 @@ inline void servo_go_angle(servo_t *servo, float angle) {
 		servo_go_center(servo);
 
 	} else if (angle < servo->center_angle) {
-		uint16_t val = servo->left + ((servo->center - servo->left) * angle) / servo->left_angle;
+		uint16_t val = servo->center + ((servo->center - servo->left) * angle) / (float)(servo->center_angle - servo->left_angle);
 		servo_set_width(servo, val);
 
 	} else if (angle > servo->center_angle) {
-		uint16_t val = servo->center + ((servo->right - servo->center) * angle) / servo->right_angle;
+		uint16_t val = servo->center + ((servo->right - servo->center) * angle) / (float)(servo->right_angle - servo->center_angle);
 		servo_set_width(servo, val);
 	}
 }

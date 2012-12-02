@@ -44,7 +44,7 @@ begin
         SPI_DI_REQ   => SPI_DI_REQ,
 
         SERVO        => X(18),
-        LED          => LEDF
+        LED          => X(21)
      );
 
 

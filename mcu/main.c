@@ -2,15 +2,13 @@
 #include <fitkitlib.h>
 #include "servo.h"
 
-char last_ch; //naposledy precteny znak
-
 // stezen
 servo_t s_mast = {
   .addr = 0x00A0,
   .period = SERVO_HS422_PERIOD,
-  .left = SERVO_HS422_LEFT,
-  .right = SERVO_HS422_RIGHT,
-  .center = SERVO_HS422_CENTER,
+  .left = 500,
+  .right = 2300,
+  .center = 1400,
   .left_angle = -90,
   .right_angle = 90,
   .center_angle = 0,
@@ -153,12 +151,11 @@ void fpga_initialized()
 *******************************************************************************/
 int main(void)
 {
-  last_ch = 0;
-
   initialize_hardware();
   servo_init(&s_mast);
   servo_init(&s_wheels);
   set_led_d6(1);
+  set_led_d5(1);
 
   term_send_crlf();
   term_send_str("Stezen\nAdresa: ");
