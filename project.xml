@@ -18,6 +18,8 @@
 		<file>pwm.vhd</file>
 		<file>servo_reg.vhd</file>
 		<file>servo.vhd</file>
+		<file>register.vhd</file>
+		<file>register_spi.vhd</file>
 		<file>top.vhd</file>
 	</fpga>
 

@@ -19,7 +19,7 @@ end PWM;
 
 
 architecture basic of PWM is
-signal cnt : std_logic_vector(BITS-1 downto 0) := (others => '0');
+signal cnt : std_logic_vector(BITS-1 downto 0);
 signal rst: std_logic;
 signal flip: std_logic;
 
