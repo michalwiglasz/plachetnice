@@ -106,33 +106,33 @@ Plachetnice je ovládána pomocí dvou nezávislých servomotorů -- jeden z~nic
 otáčí stěžněm, druhý je napojen na podvozek a řídí natočení zadních kol.
 
 Použité servomotory jsou řízeny pulsně šířkovou modulací (\emph{Pulse Width
-Modulation}, PWM). Na řídicí vodič jsou posílány pulsy s~periodou $20\,ms$. Šířka
-pulsu pak určuje natočení hřídele servomotoru a pohybuje se mezi $500$ a
-$2\,500\,\mu{}s$. \cite{modelarska_stranka_dohledam_doma}
+Modulation}, PWM). Na řídicí vodič jsou posílány pulsy s~periodou $20\,ms$
+($50\,Hz$). Šířka pulsu pak určuje natočení hřídele servomotoru a pohybuje se
+mezi $600$ a $2\,400\,\mu{}s$. \cite{modelarska_stranka_dohledam_doma}
 
-Samotné generování pulsů je řešeno řadičem implementovaným na FPGA poli na % poli na -> poli ve
+Samotné generování pulsů je řešeno řadičem implementovaným na FPGA poli na
 FITkitu a je nezávislé na práci mikrokontroléru, odpadá tedy starost s~přesným
 časováním. Generátor se skládá z~volně běžícího čítače a dvou komparátorů. Tento
-celek je implementován jako samostatná komponenta \texttt{PWM}. Na její vstup %komponenta -> komponenta s názvem
-jsou připojeny dva registry, se kterými je porovnávána hodnota čítače. Po resetu
-(spuštění) zařízení je na výstupu generátoru logická 1. Jakmile čítač dosáhne
-hodnoty prvního z~registrů, je výstup překlopen na logickou 0. Po dosažení
-hodnoty druhého registru se čítač vynuluje, na výstup se nastaví logická 1 a
-celý cyklus se opakuje.
+celek je implementován jako samostatná komponenta nazvaná \texttt{PWM}. Na její
+vstup jsou připojeny dva registry, se kterými je porovnávána hodnota čítače. Po
+resetu (spuštění) zařízení je na výstupu generátoru logická 1. Jakmile čítač
+dosáhne hodnoty prvního z~registrů, je výstup překlopen na logickou 0. Po
+dosažení hodnoty druhého registru se čítač vynuluje, na výstup se nastaví
+logická 1 a celý cyklus se opakuje.
 
 Pro komunikaci s~mikrokontrolérem se používá komunikační systém FITkitu,
-postavený nad sběrnicí SPI\cite{fitkit_communication}. Implementačně je blok SPI
-dekodéru, dvou registrů\footnote{Přesněji se jedná o~celistvý blok dvou registrů
+postavený nad sběrnicí SPI \cite{fitkit_communication}. Implementačně je blok SPI
+dekodéru, dvou registrů\footnote{Přesněji se jedná o~blok dvou registrů
 s~multiplexovaným vstupem a výstupem a zároveň oddělenými výstupy pro každý z
-registrů, jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení střídy
+registrů; jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení střídy
 a periody) a vytvořené komponenty \texttt{PWM} zapouzdřen do další komponenty,
 nazvané \texttt{Servo}. Generátor PWM je v~této komponentě obsažen dvakrát --
-druhý z~nich ovšem pracuje s~periodou i střídou vynásobenou !!!!kolikrat!!!! a jeho
+druhý z~nich ovšem pracuje s~64krát delší periodou a střídou a jeho
 výstup je možné připojit na LED diodu\footnote{Jedná se o~výstup \texttt{LED}
 komponenty \texttt{Servo}.}. Při vývoji se tak dá orientačně kontrolovat, zda
 vše pracuje dle očekávání\footnote{Navíc při chybém výstupu (například při
 trvalé hodnotě 1 nebo 0) se LED nepoškodí, narozdíl od servomotoru, který se
-může spálit, čehož jsme několikrát využili při hledání chyb v~implementaci}.
+může spálit. Toho jsme několikrát využili při hledání chyb v~implementaci.}.
 
 Řadiči je nutno přidělit adresu v~rámci komunikačního systému, přes kterou mu
 jsou zasílány hodnoty periody (pouze při resetu zařízení) a střídy (v~případě
@@ -140,7 +140,7 @@ potřeby). Uložené hodnoty lze také číst. Platí, že na určené adrese je
 zpřístupněn registr obsahující délku periodu, na adrese zvýšené o~jedničku pak
 registr s~délkou střídy. Obě hodnoty vyjadřují počet taktů.
 
-Generátory signálu PWM lze také v~případě potřeby vypínat. K~tomu slouží vstup
+Generátory signálu PWM lze také v~případdě potřeby vypínat. K~tomu slouží vstup
 řadiče EN, který je aktivní v~logické 1.
 
 Tento řadič využíváme dvakrát -- každý obsluhuje jeden servomotor. Pro práci na
@@ -148,92 +148,110 @@ staraně mikrokontroléru jsou vytvořeny pomocné funkce (implementované v
 \texttt{servo.h}), které kromě komunikace s~řadičem zajišťují také přepočet
 údajů v~mikrosekundách na počet taktů (při taktovací frekvenci 40\,Hz).
 
-Při použitém taktu FPGA 40\,Hz je pro dosažení požadované periody 20\,ms, neboli
-400~tisíc taktů, potřeba alespoň 19bitový čítač, a tedy i 19bitové regitry pro
-nastavení hodnot komparátorů. Protože je ale mikrokontrolér FITkitu pouze
-16bitový, museli jsme snížit počet přenášených bitů. Jako rozumná se ukázala
-datová šířka 12 bitů -- u~převodů z~mikrosekund by totiž při větší šířce slova
-mohlo dojít k~přetečení. Dolních sedm bitů je vždy nastaveno na nulu. Ztráta
-přesnosti je pro naše účely zanedbatelná.
+Při použitém taktu FPGA $40\,MHz$ je pro dosažení požadované periody 20\,ms,
+neboli 400~tisíc taktů, potřeba alespoň 19bitový čítač, a tedy i 19bitové
+regitry pro nastavení hodnot komparátorů. Protože je ale mikrokontrolér FITkitu
+pouze 16bitový, snížili jsme počet přenášených bitů na 16. U periody jsme se
+rozhodli snížit přesnost -- pomocí SPI se přenáší horních 16~bitů, dolní tři
+bity jsou vždy nastaveny na nulu. Naopak, hodnota střídy je oproti periodě malá
+a není třeba využít celý rozsah 19bitových čísel -- přenáší se tedy dolních
+16~bitů, horní tři bity jsou vždy nulové.
 
 Pro případné vypnutí servomotoru je v~hlavní entitě implementovaného HW zaveden
-kontrolní 16bitový registr. Z~něj jsou využity pouze dva nejspodnější bity,
-každý z~nich je připojen na vstup EN příslušného řadiče. Ostatní bity jsou v
-tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
-plachetnice pro noční \uv{plavby} -- stačí pouze příslušné bity vyvést na
-sběrnici X (konektor JP !!!!nevimkolik!!!!).
+kontrolní 16bitový registr\footnote{Komponenta \texttt{register}.}. Z~něj jsou
+využity pouze dva nejvýznamnější bity, každý z~nich je připojen na vstup EN
+příslušného řadiče servomotoru. Ostatní bity jsou v tuto chvíli bez využití, ale
+uvažovali jsme například o~řízení osvětlení plachetnice pro noční \uv{plavby} --
+stačí pouze příslušné bity vyvést na sběrnici X (konektor \texttt{JP10}). Zápis
+a čtení hodnot je opět realizováno pomocí sběrnice SPI\footnote{Komponenta
+\texttt{register_spi}.}.
 
-
-
-Čmáranice! Bitové posuny, šířky sběrnic atd. nevím, nemám aktuální kód.
 
 
 \begin{figure}[h]
+\caption{Schéma řídicího obvodu servomotoru}
 \centering
 \begin{Verbatim}
-  |--- Servo ------------------------------------------------------------------|
+  .--- Servo ------------------------------------------------------------------.
   |                                                                            |
-  |             |----- SPI_adc -----|        |--- servo_ctrl_reg ---|          |
---| CLK --------| CLK          ADDR |(0)-----| MUX        DOUT_FLIP |-----.    |
---| CS ---------| CS       DATA_OUT |--------| DIN         DOUT_MAX |--.  |    |
---| DO ---------| DO        DATA_IN |--------| DOUT                 |  |  |    |
---| DI ---------| DI       WRITE_EN |--------| WE                   |  |  |    |
---| DI_REQ -----| DI_REQ    READ_EN |--   .--| RESET                |  |  |    |
---| RESET       |-------------------|     |  |----------------------|  |  |    |
---| EN                                    |                            |  |    |
-  |                            RESET<-----|                            |  |    |
-  |                                                                    |  |    |
-  |              |--- PWM (xx bits) ---|                               |  |    |
-  |        CLK<--| CLK         MAX_VAL |-(x << ?)----------------------o  |    |
-  |      RESET<--| RESET      FLIP_VAL |-(x << ?)----------------------)--o    |
---| DOUT --------| DOUT             EN |---->EN                        |  |    |
-  |              |---------------------|                               |  |    |
-  |                                                                    |  |    |
-  |                                                                    |  |    |
-  |                                                                    |  |    |
-  |              |--- PWM (19 bits) ---|                               |  |    |
-  |        CLK<--| CLK         MAX_VAL |-(x << ?)----------------------'  |    |
-  |      RESET<--| RESET      FLIP_VAL |-(x << ?)-------------------------'    |
---| LED ---------| DOUT             EN |---->EN                                |
-  |              |---------------------|                                       |
+  |               .----- SPI_adc -----.       .--- servo_ctrl_reg ---.         |
+--|- CLK ---------| CLK       ADDR(0) |-------| MUX        DOUT_FLIP |-----.   |
+--|- SPI_CS ------| CS       DATA_OUT |-------| DIN         DOUT_MAX |--.  |   |
+--|- SPI_DO ------| DO        DATA_IN |-------| DOUT                 |  |  |   |
+--|- SPI_DO_VLD --| DO_VLD   WRITE_EN |-------| WE                   |  |  |   |
+--|- SPI_DI ------| DI        READ_EN |--     |                      |  |  |   |
+--|- SPI_DI_REQ --| DI_REQ            |    .--| RESET                |  |  |   |
+  |               '-------------------'    |  '----------------------'  |  |   |
+--|- EN                                    |                            |  |   |
+--|- RESET                        RESET <--'                            |  |   |
+  |                                                                     |  |   |
+  |              .----- PWM (19 bits) -----.                            |  |   |
+  |       CLK <--| CLK     MAX_VAL(18..03) |----------------------------o  |   |
+  |     RESET <--| RESET   MAX_VAL(02..00) |--"000"                     |  |   |
+  |        EN <--| EN     FLIP_VAL(18..16) |--"000"                     |  |   |
+  |              |        FLIP_VAL(15..00) |----------------------------)--o   |
+--|- SERVO ------| DOUT                    |                            |  |   |
+  |              '-------------------------'                            |  |   |
+  |                                                                     |  |   |
+  |                                                                     |  |   |
+  |                                                                     |  |   |
+  |              .----- PWM (25 bits) -----.                            |  |   |
+  |       CLK <--| CLK     MAX_VAL(24..09) |----------------------------'  |   |
+  |     RESET <--| RESET   MAX_VAL(08..00) |--"000000000"                  |   |
+  |        EN <--| EN     FLIP_VAL(24..22) |--"000"                        |   |
+  |              |        FLIP_VAL(21..06) |-------------------------------'   |
+  |              |        FLIP_VAL(05..00) |--"000000"                         |
+--|- LED --------| DOUT                    |                                   |
+  |              '-------------------------'                                   |
   |                                                                            |
-  |----------------------------------------------------------------------------|
+  '----------------------------------------------------------------------------'
 \end{Verbatim}
 \end{figure}
 
 
 \begin{figure}[h]
+\caption{Schéma celkového zapojení na FPGA}
 \centering
 \begin{Verbatim}
-  |--- TOP ---------------------------------|
-  |                                         |
-  |             |---- Servo ----|           |
---| CLK --------| CLK      DOUT |---- X(16) |--
---| CS ---------| CS        LED |-----X(??) |--
---| DO ---------| DO            |           |
---| DI ---------| DI            |           |
---| DI_REQ -----| DI_REQ        |           |
---| RESET ------| RESET         |           |
-  |           --| EN            |           |
-  |             |---------------|           |
-  |                                         |
-  |                                         |
-  |             |---- Servo ----|           |
-  |      CLK <--| CLK      DOUT |---- X(??) |--
-  |       CS <--| CS        LED |---- X(??) |--
-  |       DO <--| DO            |           |
-  |       DI <--| DI            |           |
-  |   DI_REQ <--| DI_REQ        |           |
-  |    RESET <--| RESET         |           |
-  |           --| EN            |           |
-  |             |---------------|           |
-  |                                         |
-  |-----------------------------------------|
+  .--- TOP ---------------------------------------------------.
+  |                                                           |
+  |                  .---- register_spi ----.                 |
+--|- CLK ------------| CLK         DOUT(15) |-----.           |
+--|- RESET ----------| RESET       DOUT(14) |--.  |           |
+--|- SPI_CS ---------| SPI_CS               |  |  |           |
+--|- SPI_DO ---------| SPI_DO               |  |  |           |
+--|- SPI_DO_VLD -----| SPI_DO_VLD           |  |  |           |
+--|- SPI_DI ---------| SPI_DI               |  |  |           |
+--|- SPI_DI_REQ -----| SPI_DI_REQ           |  |  |           |
+  |                  '----------------------'  |  |           |
+  |                                            |  |           |
+  |                                            |  |           |
+  |                                            |  |           |
+  |                  .-- Servo (wheels) --.    |  |           |
+  |           CLK <--| CLK             EN |----'  |           |
+  |         RESET <--| RESET              |       |           |
+  |        SPI_CS <--| SPI_CS       SERVO |-------)--- X(16) -|-- JP10(21)
+  |        SPI_DO <--| SPI_DO         LED |-------)--- X(20) -|-- JP10(25)
+  |    SPI_DO_VLD <--| SPI_DO_VLD         |       |           |
+  |        SPI_DI <--| SPI_DI             |       |           |
+  |    SPI_DI_REQ <--| SPI_DI_REQ         |       |           |
+  |                  '--------------------'       |           |
+  |                                               |           |
+  |                                               |           |
+  |                                               |           |
+  |                  .--- Servo (mast) ---.       |           |
+  |           CLK <--| CLK             EN |-------'           |
+  |         RESET <--| RESET              |                   |
+  |        SPI_CS <--| SPI_CS       SERVO |----------- X(18) -|-- JP10(23)
+  |        SPI_DO <--| SPI_DO         LED |----------- X(21) -|-- JP10(26)
+  |    SPI_DO_VLD <--| SPI_DO_VLD         |                   |
+  |        SPI_DI <--| SPI_DI             |                   |
+  |    SPI_DI_REQ <--| SPI_DI_REQ         |                   |
+  |                  '--------------------'                   |
+  |                                                           |
+  '-----------------------------------------------------------'
 \end{Verbatim}
 \end{figure}
-
-V~TOP je ještě jeden SPI\_adc napojený na 16bit registr, který je zčásti vyvedený
-na X + dolní dva bity na vstupy EN serv. Dohledat v~kódu.
 
 
 %osvětlení?
