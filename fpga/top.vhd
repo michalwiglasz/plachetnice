@@ -14,7 +14,6 @@ architecture main of tlv_gp_ifc is
       port (
          CLK          : in  std_logic;
          RESET        : in  std_logic;
-         EN           : in  std_logic;
 
          SPI_CS       : in  std_logic;
          SPI_DO       : in  std_logic;
@@ -63,7 +62,6 @@ begin
      port map (
         CLK          => CLK,
         RESET        => RESET,
-        EN           => '0',
 
         SPI_CS       => SPI_CS,
         SPI_DO       => SPI_DO,

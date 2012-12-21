@@ -10,7 +10,6 @@ entity register_spi is
    port (
       CLK          : in  std_logic;
       RESET        : in  std_logic;
-      EN           : in  std_logic;
 
       SPI_CS       : in  std_logic;
       SPI_DO       : in  std_logic;
