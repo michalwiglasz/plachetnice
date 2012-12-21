@@ -62,8 +62,13 @@ Ukázalo se však, že Lego není úplně vhodným stavebním materiálem. Jedna
 
 Stavba z~Merkuru byla podstatně zdlouhavější (i za pomoci aku šroubováku), na druhou stranu však působila mnohem pevnějším dojmem.
 
-
 Zjistili jsme, že rozteč děr v~dílech Merkuru neodopovídá rozteči úchytů na FITkitu ani serv. Naštěstí jsou v~Merkuru i dílky s~oválnými dírami, díky kterým se nám podařilo uchytit FITkit a větší servo, které ovládá stěžeň. Tím jsme ovšem všechny tyto dílky spotřebovali.
+
+U ovládání podvozku jsme proto už s Merkurem nevystačili. Jako ideální materiál se ukázal kuprextit, ze kterého jsme si na míru vyrobili zbylé díly. Použili jsme jej jak k upevnění servomotoru na kostru, tak k propojení ovládání podvozku s hřídelí servomotoru.
+
+Po naprogramování a spuštění řídicího softwaru jsme zjistili, že kvůli setrvačnosti ráhna měl stěžen tendenci se otáčet více než bylo třeba, a proto stále osciloval okolo určené polohy. To se nám podařilo vyřešit pomocí dvou gumiček do vlasů upevněných naproti sobě.
+
+Protože běžná kolečka z Merkuru jsou bez pneumatik, pomohli jsme si O-kroužkovým těsněním. Zakoupili jsme je přesně na míru, nicméně na špatná kolečka -- dvě z nich byla natolik pokřivená, že se plachetnice nemohla rozjet. Proto jsme na řídicí nápravu použili jiná, větší a rovnější. K nim jsme ale neměli O-kroužky. Místo nich nás napadlo použít koaxiální kabel, který jsme obmotali dokola a volné konce spájeli k sobě. \ref{fig:kolecka}
 
 \section{Senzory}
 Robot zpracovává vstupy ze dvou senzorů. První z~nich je jednokanálový inkrementální optický enkodér používaný k~odometrii. Druhý je magnetický enkodér, který měří aktuální směr větru.
@@ -164,7 +169,7 @@ příslušného řadiče servomotoru. Ostatní bity jsou v tuto chvíli bez vyu�
 uvažovali jsme například o~řízení osvětlení plachetnice pro noční \uv{plavby} --
 stačí pouze příslušné bity vyvést na sběrnici X (konektor \texttt{JP10}). Zápis
 a čtení hodnot je opět realizováno pomocí sběrnice SPI\footnote{Komponenta
-\texttt{register_spi}.}.
+\texttt{register\_spi}.}.
 
 
 
