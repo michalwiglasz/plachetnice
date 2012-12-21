@@ -71,6 +71,8 @@ Po naprogramování a spuštění řídicího softwaru jsme zjistili, že kvůli
 
 Protože běžná kolečka z Merkuru jsou bez pneumatik, pomohli jsme si O-kroužkovým těsněním. Zakoupili jsme je přesně na míru, nicméně na špatná kolečka -- dvě z nich byla natolik pokřivená, že se plachetnice nemohla rozjet. Proto jsme na řídicí nápravu použili jiná, větší a rovnější. K nim jsme ale neměli O-kroužky. Místo nich nás napadlo použít koaxiální kabel, který jsme obmotali dokola a volné konce spájeli k sobě. \ref{fig:kolecka}
 
+
+
 \section{Senzory}
 Robot zpracovává vstupy ze dvou senzorů. První z~nich je jednokanálový inkrementální optický enkodér používaný k~odometrii. Druhý je magnetický enkodér, který měří aktuální směr větru.
 
@@ -79,41 +81,41 @@ Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by n�
 
 Zprvu jsme chtěli zakoupit komerčně vyráběný enkodér, jehož zapojení by bylo jistě rychlé a jednoduché. Po shlédnutí nabídek několika obchodů jsme ale zjistili, že koupit vhodný a pro naše potřeby přijatelný enkodér, nebude možné. Největší úskalí bylo v~tom, že jsme požadovali takový enkodér, jehož připojení k~nápravě by nijak nezvyšovalo její otáčivý odpor. Většina levných enkodérů však pracovala na principu otáčení potenciometrem, který již z~principu při otáčení odpor produkuje. Ani u~optických nebo magnetických enkodérů jsme neměli jistotu, že s~nimi půjde otáčet dostatečně hladce. Jejich určení bylo totiž k~měření otáček motorů, kterým překonání jejich otáčivého odporu nečiní nejmenší problém. Rozhodli jsme se proto, že enkodér vytvoříme vlastními silami na optickém nereflexivním principu.
 
-Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka 34mm odpovídá jednomu impulzu za každých uražených 35mm.
-
-%menší kolečka - přesnější
+Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka 34mm odpovídá jednomu impulzu za každých uražených 35mm. Jak bylo řečeno v kapitole~\ref{sec:konstrukce} každá z náprav používá jiný poloměr kol. Toho jsme využili a na měřenou nápravu použili kolečka menšího průměru, která se tak musí rychleji otáčet, což poskytuje lehké zvýšení přesnosti senzoru.
 
 Elektronická část enkodéru se skládá z~fotodiody BPW34 (pracující ve viditelném světelném spektru) a modré supersvítivé LED, která se stará o~její osvit. Dioda je zapojena jako \emph{hradlový článek}, pracuje tedy jako zdroj napětí. Vhodnější by jistě bylo její zapojení jako \emph{spínací diody}, kdy by byla připojena na bázi tranzistoru. Zapojení jako hradlový článek totiž později provázely potíže, které se nám podařilo identifikovat až při jejich vyřešení. Zjistili jsme tak, že zapojení není úplně vhodné, ale protože bylo po korekcích (budou popsané později) funkční, tak jsme hradlové zapojení diody v~enkodéru ponechali.
 
-Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme zvýšit napětí generované fotodiodou. To je totiž i při silném osvitu přibližně $0.5$V, což je napětí, které běžný port MCU nerozliší od napětí nulového. Nevhodným řešením by jistě bylo použití ADC, proto jsme použili operační zesilovač !!!číslo!!!, který měl dynamický rozsah generovaných napětí zvyšovat v~intervalu $0-3.3$V. Pro vyhlazení hazardních stavů jsme navíc mezi OZ a MCU zapojili Schmittův klopný obvod HCF40106BE. Popsané schéma zapojení lze nalézt na obrázku~\ref{fig:schema1}.
+Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme zvýšit napětí generované fotodiodou. To je totiž i při silném osvitu přibližně $0.5$V, což je napětí, které běžný port MCU nerozliší od napětí nulového. Nevhodným řešením by jistě bylo použití ADC, proto jsme použili operační zesilovač 4558c, který měl dynamický rozsah generovaných napětí zvyšovat v~intervalu $0-3.3$V. Pro vyhlazení hazardních stavů jsme navíc mezi OZ a MCU zapojili Schmittův klopný obvod HCF40106BE. Popsané schéma zapojení lze nalézt na obrázku~\ref{fig:schema1}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=10.0cm]{img/schema1.ps}
-\caption{Zapojení optického enkodéru.}
+\includegraphics[width=8.0cm]{img/schema1.ps}
+\caption{Předpokládané zapojení optického enkodéru.}
 \label{fig:schema1}
 \end{figure}
+
+Přestože se zdá toto zapojení korektní, po jeho fyzické realizaci jsme zjistili, že není funkční. Operační zesilovač se choval tak, jakoby na jeho kladný vstup nebyl připojen žádný vodič. Pokud jsme však připojili libovolné jiné napětí, které nebylo generováno fotodiodou, vše fungovalo správně. Po vyzkoušení všech možných i nemožných zapojení jsme zjistili, že obvod se chová správně, pokud jsou namísto jedné fotodiody použity dvě fotodiody v sériovém zapojení. Předpokládáme, že toto chování je způsobeno tím, že jedna fotodioda není schopna dodat dostatečný proud na to, aby operační zesilovač změnu napětí zaregistroval. Jedná se však pouze o naši domněnku.
+
+Použít dvě sériově zapojené fotodiody se nezdálo jako vhodné řešení, protože by vznikal problém s jejich společným osvitem a možná i další problémy. Vhodným řešením se ale ukázalo připojení pevného napětí (cca 0.4V) před fotodiodu. Samotná fotodioda poté dodá zbývající napětí, které je nutné pro překročení prahu operačního zesilovače. Takové zapojení, i když bylo získáno pomocí mnoha pokusů, je funkční a spolehlivé, proto jsme je použili i ve výsledné konstrukci. Schéma konečného zapojení lze nalézt na obrázku~\ref{fig:schema2}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=10.0cm]{img/schema2.ps}
-\caption{Zapojení optického enkodéru.}
-\label{fig:schema1}
+\includegraphics[width=8.0cm]{img/schema2.ps}
+\caption{Funkční zapojení optického enkodéru.}
+\label{fig:schema2}
 \end{figure}
-
-Dioda
-
-Fotodioda
-
-fotorezistor
-
-Schéma
 
 \subsection{Magnetický enkodér}
+Druhým senzorem, který je potřeba pro správnou funkčnost plachetnice je elektronická korouhvička pro určování směru větru. Podle jeho údajů je plachatnice schopna natáčet správně plachtu. Zde jsme se také pokusili získat komerčně vyráběný senzor, zjistili jsme však, že ve velikosti jakou požadujeme, se takovýto senzor koupit nedá.
 
-Magnet
+Nejdříve jsme plánovali vyrobit inkrementální optický senzor podobně jako enkodér pro odometrii s tím rozdílem, že zde bychom vytvořili klasický tříkanálový inkrementální enkodér. Po problémech s jednokanálovým enkodérem jsme však od tohoto postupu ustoupili a vypůjčili si magnetický senzor AS5045.
 
-Schéma
+Výroba korouhvičky z Merkuru byla poměrně jednoduchá. Na její spodní část je oboustrannou lepící páskou přilepen neodymový magnet, který se otáčení spolu s korouhvičkou. Naproti němu ve vzdálenosti cca 2mm je přilepen zapůjčený senzor. Senzor byl již připájen na DSP s jednoduchým rozhraním. Stačilo tedy pouze propojit jeho porty s porty FITkitu.
+
+Čtení dat ze senzoru se odehrává celé v MCU. Jedná se o synchronní komunikaci typu master-slave. MCU zahájí komunikaci nastavením hodnoty ENABLE. Dále vysílá hodinový takt a senzor při každé nástupné hraně vystavý jeden bit z 18ti bitového slova, které mimo jiné přímo obsahuje absolutní směr magnetu. Čtení se odehrává přímo v hlavní smyčce MCU, ve které se při každém průchodu změní hodnota taktovacího signálu. Po dokončení komunikace se přečtená hodnota upraví do vhodného úhlu pro plachty\footnote{Jako nejjednodušíí volba úhlu plachet se jevila běžná jachtařská pomůcka, která říká, že úhel plachty by měl dělit úhel mezi směrem lodi a směrem větru právě na poloviny.}. Požadovaná hodnota se odešle jako příkaz pro servomotor hlavní plachty. Čtení senzoru a případná úprava směru plachty probíhá tímto způsobem přibližně třikrát za sekundu.
+
+
+
 \section{Efektory}
 
 \subsection{Servomotory}
