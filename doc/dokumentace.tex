@@ -78,7 +78,9 @@ Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by n�
 
 Zprvu jsme chtěli zakoupit komerčně vyráběný enkodér, jehož zapojení by bylo jistě rychlé a jednoduché. Po shlédnutí nabídek několika obchodů jsme ale zjistili, že koupit vhodný a pro naše potřeby přijatelný enkodér, nebude možné. Největší úskalí bylo v~tom, že jsme požadovali takový enkodér, jehož připojení k~nápravě by nijak nezvyšovalo její otáčivý odpor. Většina levných enkodérů však pracovala na principu otáčení potenciometrem, který již z~principu při otáčení odpor produkuje. Ani u~optických nebo magnetických enkodérů jsme neměli jistotu, že s~nimi půjde otáčet dostatečně hladce. Jejich určení bylo totiž k~měření otáček motorů, kterým překonání jejich otáčivého odporu nečiní nejmenší problém. Rozhodli jsme se proto, že enkodér vytvoříme vlastními silami na optickém nereflexivním principu.
 
-Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka !!!!!!ZMĚŘIT!!!!! odpovídá jednomu impulzu za každých uražených !!!! milimetrů.
+Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka 34mm odpovídá jednomu impulzu za každých uražených 35mm.
+
+%menší kolečka - přesnější
 
 Elektronická část enkodéru se skládá z~fotodiody BPW34 (pracující ve viditelném světelném spektru) a modré supersvítivé LED, která se stará o~její osvit. Dioda je zapojena jako \emph{hradlový článek}, pracuje tedy jako zdroj napětí. Vhodnější by jistě bylo její zapojení jako \emph{spínací diody}, kdy by byla připojena na bázi tranzistoru. Zapojení jako hradlový článek totiž později provázely potíže, které se nám podařilo identifikovat až při jejich vyřešení. Zjistili jsme tak, že zapojení není úplně vhodné, ale protože bylo po korekcích (budou popsané později) funkční, tak jsme hradlové zapojení diody v~enkodéru ponechali.
 
@@ -87,6 +89,13 @@ Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme
 \begin{figure}[h]
 \centering
 \includegraphics[width=10.0cm]{img/schema1.ps}
+\caption{Zapojení optického enkodéru.}
+\label{fig:schema1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.0cm]{img/schema2.ps}
 \caption{Zapojení optického enkodéru.}
 \label{fig:schema1}
 \end{figure}
