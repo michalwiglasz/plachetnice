@@ -136,18 +136,19 @@ dosažení hodnoty druhého registru se čítač vynuluje, na výstup se nastav�
 logická 1 a celý cyklus se opakuje.
 
 Pro komunikaci s~mikrokontrolérem se používá komunikační systém FITkitu,
-postavený nad sběrnicí SPI \cite{fitkit_communication}. Implementačně je blok SPI
-dekodéru, dvou registrů\footnote{Přesněji se jedná o~blok dvou registrů
+postavený nad sběrnicí SPI \cite{fitkit_communication}. Implementačně je blok
+SPI dekodéru, dvou registrů\footnote{Přesněji se jedná o~blok dvou registrů
 s~multiplexovaným vstupem a výstupem a zároveň oddělenými výstupy pro každý z
-registrů; jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení střídy
-a periody) a vytvořené komponenty \texttt{PWM} zapouzdřen do další komponenty,
-nazvané \texttt{Servo}. Generátor PWM je v~této komponentě obsažen dvakrát --
-druhý z~nich ovšem pracuje s~64krát delší periodou a střídou a jeho
-výstup je možné připojit na LED diodu\footnote{Jedná se o~výstup \texttt{LED}
-komponenty \texttt{Servo}.}. Při vývoji se tak dá orientačně kontrolovat, zda
-vše pracuje dle očekávání\footnote{Navíc při chybém výstupu (například při
-trvalé hodnotě 1 nebo 0) se LED nepoškodí, narozdíl od servomotoru, který se
-může spálit. Toho jsme několikrát využili při hledání chyb v~implementaci.}.
+registrů; jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení
+střídy a periody) a vytvořené komponenty \texttt{PWM} zapouzdřen do další
+komponenty, nazvané \texttt{Servo}. Blokové schéma této komponenty je na obrázku
+\ref{fig:fpga_servo}. Generátor PWM je v~této komponentě obsažen dvakrát --
+druhý z~nich ovšem pracuje s~64krát delší periodou a střídou a jeho výstup je
+možné připojit na LED diodu\footnote{Jedná se o~výstup \texttt{LED} komponenty
+\texttt{Servo}.}. Při vývoji se tak dá orientačně kontrolovat, zda vše pracuje
+dle očekávání\footnote{Navíc při chybém výstupu (například při trvalé hodnotě 1
+nebo 0) se LED nepoškodí, narozdíl od servomotoru, který se může spálit. Toho
+jsme několikrát využili při hledání chyb v~implementaci.}.
 
 Řadiči je nutno přidělit adresu v~rámci komunikačního systému, přes kterou mu
 jsou zasílány hodnoty periody (pouze při resetu zařízení) a střídy (v~případě
@@ -158,11 +159,6 @@ registr s~délkou střídy. Obě hodnoty vyjadřují počet taktů.
 Generátory signálu PWM lze také v~případdě potřeby vypínat. K~tomu slouží vstup
 řadiče EN, který je aktivní v~logické 1.
 
-Tento řadič využíváme dvakrát -- každý obsluhuje jeden servomotor. Pro práci na
-staraně mikrokontroléru jsou vytvořeny pomocné funkce (implementované v
-\texttt{servo.h}), které kromě komunikace s~řadičem zajišťují také přepočet
-údajů v~mikrosekundách na počet taktů (při taktovací frekvenci 40\,Hz).
-
 Při použitém taktu FPGA $40\,MHz$ je pro dosažení požadované periody 20\,ms,
 neboli 400~tisíc taktů, potřeba alespoň 19bitový čítač, a tedy i 19bitové
 regitry pro nastavení hodnot komparátorů. Protože je ale mikrokontrolér FITkitu
@@ -172,18 +168,25 @@ bity jsou vždy nastaveny na nulu. Naopak, hodnota střídy je oproti periodě m
 a není třeba využít celý rozsah 19bitových čísel -- přenáší se tedy dolních
 16~bitů, horní tři bity jsou vždy nulové.
 
-Pro případné vypnutí servomotoru je v~hlavní entitě implementovaného HW zaveden
-kontrolní 16bitový registr\footnote{Komponenta \texttt{register}.}. Z~něj jsou
-využity pouze dva nejvýznamnější bity, každý z~nich je připojen na vstup EN
-příslušného řadiče servomotoru. Ostatní bity jsou v tuto chvíli bez využití, ale
-uvažovali jsme například o~řízení osvětlení plachetnice pro noční \uv{plavby} --
-stačí pouze příslušné bity vyvést na sběrnici X (konektor \texttt{JP10}). Zápis
-a čtení hodnot je opět realizováno pomocí sběrnice SPI\footnote{Komponenta
-\texttt{register\_spi}.}.
+Pro případné vypnutí servomotoru je v~hlavní komponentě FPGA (viz schéma na
+obrázku \ref{fig:fpga_top}) umístěn řídicí 16bitový registr\footnote{Komponenta
+\texttt{register}.}. Z~něj jsou využity pouze dva nejvýznamnější bity, každý
+z~nich je připojen na vstup EN příslušného řadiče servomotoru. Ostatní bity jsou
+v tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
+plachetnice pro noční \uv{plavby} -- stačí pouze příslušné bity vyvést na
+sběrnici X (konektor \texttt{JP10}). Zápis a čtení hodnot je opět realizováno
+pomocí sběrnice SPI\footnote{Komponenta \texttt{register\_spi}.}.
+
+Komponentu řadiče servomotoru využíváme dvakrát -- každá obsluhuje jeden
+servomotor. Pro práci na straně mikrokontroléru jsou vytvořeny pomocné funkce
+(implementované v \texttt{servo.h}), které kromě komunikace s~řadičem zajišťují
+také přepočet údajů v~mikrosekundách na počet taktů (při taktovací frekvenci
+40\,Hz).
 
 
 
 \begin{figure}[h]
+\label{fig:fpga_servo}
 \caption{Schéma řídicího obvodu servomotoru}
 \centering
 \begin{Verbatim}
@@ -225,6 +228,7 @@ a čtení hodnot je opět realizováno pomocí sběrnice SPI\footnote{Komponenta
 
 
 \begin{figure}[h]
+\label{fig:fpga_top}
 \caption{Schéma celkového zapojení na FPGA}
 \centering
 \begin{Verbatim}
