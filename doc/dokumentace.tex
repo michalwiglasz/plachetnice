@@ -173,9 +173,9 @@ obrázku \ref{fig:fpga_top}) umístěn řídicí 16bitový registr\footnote{Komp
 \texttt{register}.}. Z~něj jsou využity pouze dva nejvýznamnější bity, každý
 z~nich je připojen na vstup EN příslušného řadiče servomotoru. Ostatní bity jsou
 v~tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
-plachetnice pro noční \uv{plavby} -- stačí pouze příslušné bity vyvést na
-sběrnici X (konektor \texttt{JP10}). Zápis a čtení hodnot je opět realizováno
-pomocí sběrnice SPI\footnote{Komponenta \texttt{register\_spi}.}.
+plachetnice pro noční \uv{plavby} -- bity 0 až 9 jsou (nejen) pro tento účel
+vyvedeny na sběrnici X (konektor \texttt{JP10}). Zápis a čtení hodnot je opět
+realizováno pomocí sběrnice SPI\footnote{Komponenta \texttt{register\_spi}.}.
 
 Komponentu řadiče servomotoru využíváme dvakrát -- každá obsluhuje jeden
 servomotor. Pro práci na straně mikrokontroléru jsou vytvořeny pomocné funkce
@@ -235,13 +235,13 @@ také přepočet údajů v~mikrosekundách na počet taktů (při taktovací fre
   .--- TOP ---------------------------------------------------.
   |                                                           |
   |                  .---- register_spi ----.                 |
---|- CLK ------------| CLK         DOUT(15) |-----.           |
---|- RESET ----------| RESET       DOUT(14) |--.  |           |
---|- SPI_CS ---------| SPI_CS               |  |  |           |
---|- SPI_DO ---------| SPI_DO               |  |  |           |
---|- SPI_DO_VLD -----| SPI_DO_VLD           |  |  |           |
---|- SPI_DI ---------| SPI_DI               |  |  |           |
---|- SPI_DI_REQ -----| SPI_DI_REQ           |  |  |           |
+--|- CLK ------------| CLK       DOUT(9..0) |----- X(43..34) -|-- JP10(48..39)
+--|- RESET ----------| RESET                |                 |
+--|- SPI_CS ---------| SPI_CS               |                 |
+--|- SPI_DO ---------| SPI_DO               |                 |
+--|- SPI_DO_VLD -----| SPI_DO_VLD           |                 |
+--|- SPI_DI ---------| SPI_DI      DOUT(15) |-----o--- X(45) -|-- JP10(50)
+--|- SPI_DI_REQ -----| SPI_DI_REQ  DOUT(14) |--o--)--- X(44) -|-- JP10(49)
   |                  '----------------------'  |  |           |
   |                                            |  |           |
   |                                            |  |           |
