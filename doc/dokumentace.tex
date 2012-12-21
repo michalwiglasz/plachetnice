@@ -8,7 +8,7 @@
 %% Kódování:  UTF-8                                                           %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%makra 
+%makra
 \newcommand{\uv}[1]{\quotedblbase #1\textquotedblleft}
 
 \newcommand{\conLine}[1]{ \begin{description} \item[~~~~] \texttt{#1} \end{description}}
@@ -29,7 +29,7 @@
 \date{}
 
 
-%\frenchspacing 
+%\frenchspacing
 
 %telo
 \begin{document}
@@ -60,16 +60,16 @@ Jako nejjednodušší varianta se jevilo využít stavebnici Lego Technics. Z~n�
 
 Ukázalo se však, že Lego není úplně vhodným stavebním materiálem. Jednak jsme zjistili, že je obtížné na něj připevnit FITkit a servomotory, druhak není příliš pevné a na pohled se zdálo, že by se silou serv\footnote{Zvlášť jsme měli obavy z~většího serva, které má točivý moment 25\,kg/cm.} mohlo polámat. Také stěžen se náporem větru mírně prohýbal, přičemž jsme do budoucna uvažovali o~ještě větší plachtě. Proto jsme se rozhodli pro stavbu druhého modelu ze stavebnice Merkur.
 
-Stavba z~Merkuru byla podstatně zdlouhavější (i za pomoci aku šroubováku), na druhou stranu však působila mnohem pevnějším dojmem. 
+Stavba z~Merkuru byla podstatně zdlouhavější (i za pomoci aku šroubováku), na druhou stranu však působila mnohem pevnějším dojmem.
 
 
-Zjistili jsme, že rozteč děr v~dílech Merkuru neodopovídá rozteči úchytů na FITkitu ani serv. Naštěstí jsou v~Merkuru i dílky z~oválnými dírami, díky kterým se nám podařilo uchytit FITkit a větší servo, které ovládá stěžeň. Tím jsme ovšem všechny tyto dílky spotřebovali. 
+Zjistili jsme, že rozteč děr v~dílech Merkuru neodopovídá rozteči úchytů na FITkitu ani serv. Naštěstí jsou v~Merkuru i dílky s~oválnými dírami, díky kterým se nám podařilo uchytit FITkit a větší servo, které ovládá stěžeň. Tím jsme ovšem všechny tyto dílky spotřebovali.
 
 \section{Senzory}
 Robot zpracovává vstupy ze dvou senzorů. První z~nich je jednokanálový inkrementální optický enkodér používaný k~odometrii. Druhý je magnetický enkodér, který měří aktuální směr větru.
 
 \subsection{Optický enkokdér}
-Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by nám umožnil určit relativní pozici plachtenice v~prostoru. Jako vhodný prostředek se jevilo použití odometrie a inkrementálního enkodéru připevněného na hřídel nápravy. 
+Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by nám umožnil určit relativní pozici plachtenice v~prostoru. Jako vhodný prostředek se jevilo použití odometrie a inkrementálního enkodéru připevněného na hřídel nápravy.
 
 Zprvu jsme chtěli zakoupit komerčně vyráběný enkodér, jehož zapojení by bylo jistě rychlé a jednoduché. Po shlédnutí nabídek několika obchodů jsme ale zjistili, že koupit vhodný a pro naše potřeby přijatelný enkodér, nebude možné. Největší úskalí bylo v~tom, že jsme požadovali takový enkodér, jehož připojení k~nápravě by nijak nezvyšovalo její otáčivý odpor. Většina levných enkodérů však pracovala na principu otáčení potenciometrem, který již z~principu při otáčení odpor produkuje. Ani u~optických nebo magnetických enkodérů jsme neměli jistotu, že s~nimi půjde otáčet dostatečně hladce. Jejich určení bylo totiž k~měření otáček motorů, kterým překonání jejich otáčivého odporu nečiní nejmenší problém. Rozhodli jsme se proto, že enkodér vytvoříme vlastními silami na optickém nereflexivním principu.
 
@@ -80,7 +80,7 @@ Elektronická část enkodéru se skládá z~fotodiody BPW34 (pracující ve vid
 Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme zvýšit napětí generované fotodiodou. To je totiž i při silném osvitu přibližně $0.5$V, což je napětí, které běžný port MCU nerozliší od napětí nulového. Nevhodným řešením by jistě bylo použití ADC, proto jsme použili operační zesilovač !!!číslo!!!, který měl dynamický rozsah generovaných napětí zvyšovat v~intervalu $0-3.3$V. Pro vyhlazení hazardních stavů jsme navíc mezi OZ a MCU zapojili Schmittův klopný obvod HCF40106BE. Popsané schéma zapojení lze nalézt na obrázku~\ref{fig:schema1}.
 
 \begin{figure}[h]
-\centering 
+\centering
 \includegraphics[width=10.0cm]{img/schema1.ps}
 \caption{Zapojení optického enkodéru.}
 \label{fig:schema1}
