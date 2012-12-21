@@ -187,6 +187,9 @@ void fpga_initialized()
 }
 
 
+/*******************************************************************************
+ * Tisk informaci o stavu serva na terminal
+*******************************************************************************/
 void print_servo_info(servo_t *servo) {
   term_send_str("Servo \"");
   term_send_str(servo->name);
@@ -230,6 +233,9 @@ void print_servo_info(servo_t *servo) {
 }
 
 
+/*******************************************************************************
+ * Tisk informaci o stavu vsech serv na terminal
+*******************************************************************************/
 void print_info()
 {
   print_servo_info(&s_mast);
