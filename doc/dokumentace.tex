@@ -65,11 +65,11 @@ Stavba z~Merkuru byla podstatně zdlouhavější (i za pomoci aku šroubováku),
 
 Zjistili jsme, že rozteč děr v~dílech Merkuru neodopovídá rozteči úchytů na FITkitu ani serv. Naštěstí jsou v~Merkuru i dílky s~oválnými dírami, díky kterým se nám podařilo uchytit FITkit a větší servo, které ovládá stěžeň. Tím jsme ovšem všechny tyto dílky spotřebovali.
 
-U ovládání podvozku jsme proto už s Merkurem nevystačili. Jako ideální materiál se ukázal kuprextit, ze kterého jsme si na míru vyrobili zbylé díly. Použili jsme jej jak k upevnění servomotoru na kostru, tak k propojení ovládání podvozku s hřídelí servomotoru.
+U~ovládání podvozku jsme proto už s~Merkurem nevystačili. Jako ideální materiál se ukázal kuprextit, ze kterého jsme si na míru vyrobili zbylé díly. Použili jsme jej jak k~upevnění servomotoru na kostru, tak k~propojení ovládání podvozku s~hřídelí servomotoru.
 
 Po naprogramování a spuštění řídicího softwaru jsme zjistili, že kvůli setrvačnosti ráhna měl stěžen tendenci se otáčet více než bylo třeba, a proto stále osciloval okolo určené polohy. To se nám podařilo vyřešit pomocí dvou gumiček do vlasů upevněných naproti sobě.
 
-Protože běžná kolečka z Merkuru jsou bez pneumatik, pomohli jsme si O-kroužkovým těsněním. Zakoupili jsme je přesně na míru, nicméně na špatná kolečka -- dvě z nich byla natolik pokřivená, že se plachetnice nemohla rozjet. Proto jsme na řídicí nápravu použili jiná, větší a rovnější. K nim jsme ale neměli O-kroužky. Místo nich nás napadlo použít koaxiální kabel, který jsme obmotali dokola a volné konce spájeli k sobě. \ref{fig:kolecka}
+Protože běžná kolečka z~Merkuru jsou bez pneumatik, pomohli jsme si O-kroužkovým těsněním. Zakoupili jsme je přesně na míru, nicméně na špatná kolečka -- dvě z~nich byla natolik pokřivená, že se plachetnice nemohla rozjet. Proto jsme na řídicí nápravu použili jiná, větší a rovnější. K~nim jsme ale neměli O-kroužky. Místo nich nás napadlo použít koaxiální kabel, který jsme obmotali dokola a volné konce spájeli k~sobě. \ref{fig:kolecka}
 
 
 
@@ -81,7 +81,7 @@ Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by n�
 
 Zprvu jsme chtěli zakoupit komerčně vyráběný enkodér, jehož zapojení by bylo jistě rychlé a jednoduché. Po shlédnutí nabídek několika obchodů jsme ale zjistili, že koupit vhodný a pro naše potřeby přijatelný enkodér, nebude možné. Největší úskalí bylo v~tom, že jsme požadovali takový enkodér, jehož připojení k~nápravě by nijak nezvyšovalo její otáčivý odpor. Většina levných enkodérů však pracovala na principu otáčení potenciometrem, který již z~principu při otáčení odpor produkuje. Ani u~optických nebo magnetických enkodérů jsme neměli jistotu, že s~nimi půjde otáčet dostatečně hladce. Jejich určení bylo totiž k~měření otáček motorů, kterým překonání jejich otáčivého odporu nečiní nejmenší problém. Rozhodli jsme se proto, že enkodér vytvoříme vlastními silami na optickém nereflexivním principu.
 
-Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka 34mm odpovídá jednomu impulzu za každých uražených 35mm. Jak bylo řečeno v kapitole~\ref{sec:konstrukce} každá z náprav používá jiný poloměr kol. Toho jsme využili a na měřenou nápravu použili kolečka menšího průměru, která se tak musí rychleji otáčet, což poskytuje lehké zvýšení přesnosti senzoru.
+Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka 34mm odpovídá jednomu impulzu za každých uražených 35mm. Jak bylo řečeno v~kapitole~\ref{sec:konstrukce} každá z~náprav používá jiný poloměr kol. Toho jsme využili a na měřenou nápravu použili kolečka menšího průměru, která se tak musí rychleji otáčet, což poskytuje lehké zvýšení přesnosti senzoru.
 
 Elektronická část enkodéru se skládá z~fotodiody BPW34 (pracující ve viditelném světelném spektru) a modré supersvítivé LED, která se stará o~její osvit. Dioda je zapojena jako \emph{hradlový článek}, pracuje tedy jako zdroj napětí. Vhodnější by jistě bylo její zapojení jako \emph{spínací diody}, kdy by byla připojena na bázi tranzistoru. Zapojení jako hradlový článek totiž později provázely potíže, které se nám podařilo identifikovat až při jejich vyřešení. Zjistili jsme tak, že zapojení není úplně vhodné, ale protože bylo po korekcích (budou popsané později) funkční, tak jsme hradlové zapojení diody v~enkodéru ponechali.
 
@@ -94,9 +94,9 @@ Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme
 \label{fig:schema1}
 \end{figure}
 
-Přestože se zdá toto zapojení korektní, po jeho fyzické realizaci jsme zjistili, že není funkční. Operační zesilovač se choval tak, jakoby na jeho kladný vstup nebyl připojen žádný vodič. Pokud jsme však připojili libovolné jiné napětí, které nebylo generováno fotodiodou, vše fungovalo správně. Po vyzkoušení všech možných i nemožných zapojení jsme zjistili, že obvod se chová správně, pokud jsou namísto jedné fotodiody použity dvě fotodiody v sériovém zapojení. Předpokládáme, že toto chování je způsobeno tím, že jedna fotodioda není schopna dodat dostatečný proud na to, aby operační zesilovač změnu napětí zaregistroval. Jedná se však pouze o naši domněnku.
+Přestože se zdá toto zapojení korektní, po jeho fyzické realizaci jsme zjistili, že není funkční. Operační zesilovač se choval tak, jakoby na jeho kladný vstup nebyl připojen žádný vodič. Pokud jsme však připojili libovolné jiné napětí, které nebylo generováno fotodiodou, vše fungovalo správně. Po vyzkoušení všech možných i nemožných zapojení jsme zjistili, že obvod se chová správně, pokud jsou namísto jedné fotodiody použity dvě fotodiody v~sériovém zapojení. Předpokládáme, že toto chování je způsobeno tím, že jedna fotodioda není schopna dodat dostatečný proud na to, aby operační zesilovač změnu napětí zaregistroval. Jedná se však pouze o~naši domněnku.
 
-Použít dvě sériově zapojené fotodiody se nezdálo jako vhodné řešení, protože by vznikal problém s jejich společným osvitem a možná i další problémy. Vhodným řešením se ale ukázalo připojení pevného napětí (cca 0.4V) před fotodiodu. Samotná fotodioda poté dodá zbývající napětí, které je nutné pro překročení prahu operačního zesilovače. Takové zapojení, i když bylo získáno pomocí mnoha pokusů, je funkční a spolehlivé, proto jsme je použili i ve výsledné konstrukci. Schéma konečného zapojení lze nalézt na obrázku~\ref{fig:schema2}.
+Použít dvě sériově zapojené fotodiody se nezdálo jako vhodné řešení, protože by vznikal problém s~jejich společným osvitem a možná i další problémy. Vhodným řešením se ale ukázalo připojení pevného napětí (cca 0.4V) před fotodiodu. Samotná fotodioda poté dodá zbývající napětí, které je nutné pro překročení prahu operačního zesilovače. Takové zapojení, i když bylo získáno pomocí mnoha pokusů, je funkční a spolehlivé, proto jsme je použili i ve výsledné konstrukci. Schéma konečného zapojení lze nalézt na obrázku~\ref{fig:schema2}.
 
 \begin{figure}[h]
 \centering
@@ -108,16 +108,15 @@ Použít dvě sériově zapojené fotodiody se nezdálo jako vhodné řešení, 
 \subsection{Magnetický enkodér}
 Druhým senzorem, který je potřeba pro správnou funkčnost plachetnice je elektronická korouhvička pro určování směru větru. Podle jeho údajů je plachatnice schopna natáčet správně plachtu. Zde jsme se také pokusili získat komerčně vyráběný senzor, zjistili jsme však, že ve velikosti jakou požadujeme, se takovýto senzor koupit nedá.
 
-Nejdříve jsme plánovali vyrobit inkrementální optický senzor podobně jako enkodér pro odometrii s tím rozdílem, že zde bychom vytvořili klasický tříkanálový inkrementální enkodér. Po problémech s jednokanálovým enkodérem jsme však od tohoto postupu ustoupili a vypůjčili si magnetický senzor AS5045.
+Nejdříve jsme plánovali vyrobit inkrementální optický senzor podobně jako enkodér pro odometrii s~tím rozdílem, že zde bychom vytvořili klasický tříkanálový inkrementální enkodér. Po problémech s~jednokanálovým enkodérem jsme však od tohoto postupu ustoupili a vypůjčili si magnetický senzor AS5045.
 
-Výroba korouhvičky z Merkuru byla poměrně jednoduchá. Na její spodní část je oboustrannou lepící páskou přilepen neodymový magnet, který se otáčení spolu s korouhvičkou. Naproti němu ve vzdálenosti cca 2mm je přilepen zapůjčený senzor. Senzor byl již připájen na DSP s jednoduchým rozhraním. Stačilo tedy pouze propojit jeho porty s porty FITkitu.
+Výroba korouhvičky z~Merkuru byla poměrně jednoduchá. Na její spodní část je oboustrannou lepící páskou přilepen neodymový magnet, který se otáčení spolu s~korouhvičkou. Naproti němu ve vzdálenosti cca 2mm je přilepen zapůjčený senzor. Senzor byl již připájen na DSP s~jednoduchým rozhraním. Stačilo tedy pouze propojit jeho porty s~porty FITkitu.
 
-Čtení dat ze senzoru se odehrává celé v MCU. Jedná se o synchronní komunikaci typu master-slave. MCU zahájí komunikaci nastavením hodnoty ENABLE. Dále vysílá hodinový takt a senzor při každé nástupné hraně vystavý jeden bit z 18ti bitového slova, které mimo jiné přímo obsahuje absolutní směr magnetu. Čtení se odehrává přímo v hlavní smyčce MCU, ve které se při každém průchodu změní hodnota taktovacího signálu. Po dokončení komunikace se přečtená hodnota upraví do vhodného úhlu pro plachty\footnote{Jako nejjednodušíí volba úhlu plachet se jevila běžná jachtařská pomůcka, která říká, že úhel plachty by měl dělit úhel mezi směrem lodi a směrem větru právě na poloviny.}. Požadovaná hodnota se odešle jako příkaz pro servomotor hlavní plachty. Čtení senzoru a případná úprava směru plachty probíhá tímto způsobem přibližně třikrát za sekundu.
+Čtení dat ze senzoru se odehrává celé v~MCU. Jedná se o~synchronní komunikaci typu master-slave. MCU zahájí komunikaci nastavením hodnoty ENABLE. Dále vysílá hodinový takt a senzor při každé nástupné hraně vystavý jeden bit z~18ti bitového slova, které mimo jiné přímo obsahuje absolutní směr magnetu. Čtení se odehrává přímo v~hlavní smyčce MCU, ve které se při každém průchodu změní hodnota taktovacího signálu. Po dokončení komunikace se přečtená hodnota upraví do vhodného úhlu pro plachty. Požadovaná hodnota se odešle jako příkaz pro servomotor hlavní plachty. Čtení senzoru a případná úprava směru plachty probíhá tímto způsobem přibližně třikrát za sekundu.
 
 
 
 \section{Servomotory}
-
 Plachetnice je ovládána pomocí dvou nezávislých servomotorů -- jeden z~nich
 otáčí stěžněm, druhý je napojen na podvozek a řídí natočení zadních kol.
 
@@ -139,15 +138,15 @@ logická 1 a celý cyklus se opakuje.
 Pro komunikaci s~mikrokontrolérem se používá komunikační systém FITkitu,
 postavený nad sběrnicí SPI \cite{fitkit_communication}. Implementačně je blok
 SPI dekodéru, dvou registrů\footnote{Přesněji se jedná o~blok dvou registrů
-s~multiplexovaným vstupem a výstupem a zároveň oddělenými výstupy pro každý z
-registrů; jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení
+s~multiplexovaným vstupem a výstupem a zároveň oddělenými výstupy pro každý
+z~registrů; jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení
 střídy a periody) a vytvořené komponenty \texttt{PWM} zapouzdřen do další
 komponenty, nazvané \texttt{Servo}. Blokové schéma této komponenty je na obrázku
 \ref{fig:fpga_servo}. Generátor PWM je v~této komponentě obsažen dvakrát --
 druhý z~nich ovšem pracuje s~64krát delší periodou a střídou a jeho výstup je
 možné připojit na LED diodu\footnote{Jedná se o~výstup \texttt{LED} komponenty
 \texttt{Servo}.}. Při vývoji se tak dá orientačně kontrolovat, zda vše pracuje
-dle očekávání\footnote{Navíc při chybém výstupu (například při trvalé hodnotě 1
+dle očekávání\footnote{Navíc při chybném výstupu (například při trvalé hodnotě 1
 nebo 0) se LED nepoškodí, narozdíl od servomotoru, který se může spálit. Toho
 jsme několikrát využili při hledání chyb v~implementaci.}.
 
@@ -163,7 +162,7 @@ Generátory signálu PWM lze také v~případdě potřeby vypínat. K~tomu slou�
 Při použitém taktu FPGA $40\,MHz$ je pro dosažení požadované periody 20\,ms,
 neboli 400~tisíc taktů, potřeba alespoň 19bitový čítač, a tedy i 19bitové
 regitry pro nastavení hodnot komparátorů. Protože je ale mikrokontrolér FITkitu
-pouze 16bitový, snížili jsme počet přenášených bitů na 16. U periody jsme se
+pouze 16bitový, snížili jsme počet přenášených bitů na 16. U~periody jsme se
 rozhodli snížit přesnost -- pomocí SPI se přenáší horních 16~bitů, dolní tři
 bity jsou vždy nastaveny na nulu. Naopak, hodnota střídy je oproti periodě malá
 a není třeba využít celý rozsah 19bitových čísel -- přenáší se tedy dolních
@@ -173,14 +172,14 @@ Pro případné vypnutí servomotoru je v~hlavní komponentě FPGA (viz schéma 
 obrázku \ref{fig:fpga_top}) umístěn řídicí 16bitový registr\footnote{Komponenta
 \texttt{register}.}. Z~něj jsou využity pouze dva nejvýznamnější bity, každý
 z~nich je připojen na vstup EN příslušného řadiče servomotoru. Ostatní bity jsou
-v tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
+v~tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
 plachetnice pro noční \uv{plavby} -- stačí pouze příslušné bity vyvést na
 sběrnici X (konektor \texttt{JP10}). Zápis a čtení hodnot je opět realizováno
 pomocí sběrnice SPI\footnote{Komponenta \texttt{register\_spi}.}.
 
 Komponentu řadiče servomotoru využíváme dvakrát -- každá obsluhuje jeden
 servomotor. Pro práci na straně mikrokontroléru jsou vytvořeny pomocné funkce
-(implementované v \texttt{servo.h}), které kromě komunikace s~řadičem zajišťují
+(implementované v~\texttt{servo.h}), které kromě komunikace s~řadičem zajišťují
 také přepočet údajů v~mikrosekundách na počet taktů (při taktovací frekvenci
 40\,Hz).
 
@@ -274,27 +273,31 @@ také přepočet údajů v~mikrosekundách na počet taktů (při taktovací fre
 \end{figure}
 
 \section{Řídicí software}
+Řízení plachetnice je plně automatické. Na základě údajů získaných z~korouhvičky (tedy magnetického enkodéru) se upravuje střída PWM signálu servomotoru, který ovládá stěžen. Pro vztah mezi směrem větru a natočením plachet byla použita jednoduchá jachtařská pomůcka, která říká, že úhel plachty by měl dělit úhel mezi směrem lodi a směrem větru právě na poloviny.
 
-Řízení plachetnice je plně automatické. Na základě údajů získaných z korouhvičky (tedy magnetického enkodéru) se upravuje střída PWM signálu servomotoru, který ovládá stěžen. !!!!!!!!!!!DOPLNIT!!!!!!!!!!!!!
+Plachetnici lze v~hlavní smyčce naprogramovat schéma, podle kterého má po spušení natáčet kola podvozku. Lze zde nastavit úhel natočení kol v~závislosti na aktuální ujeté vzdálenosti. To umožňuje nastavit plachetnici, aby jezdila před větráky například dokolečka nebo do osmičky. Tento způsob řízení má však dvě úskalí. Zaprvé je velmi nepřesné a plachetnice není schopná opsat přesné kolečko. Zadruhé vyžaduje velký rovný prostor, na kterém je silný vítr. Takovéto prostředí se nám však nepodařilo odsimulovat, protože jsme pro testy měli jen omezený počet větráků.
 
 Do řízení je možné zasahovat i ručně pomocí textového terminálu. Jednotlivými příkazy lze nastavovat úhel natočení obou serv, lze je zapínat nebo vypínat a také existují příkazy pro přímý přístup do dolních 9 bitů řídicího registru. Kompletní seznam příkazů se zobrazí příkazem \texttt{HELP}, zde jej neuvádíme.
 
 \section{Závěr}
-
-!!!!!!!!!!DOPLNIT!!!!!!!!!
-Vytvořený model plachetnice se umí autonomně pohybovat ve větru.
+Podařilo se nám vytvořit model plachetnice, která se umí za vhodných podmínek (rovná podlaha a silný vítr) autonomně pohybovat po nastavené trase ve větru. Informace o~prostředí získává ze dvou senzorů. Z~prvního získává údaj o~aktuálním směru větru a z~druhého si dopočítává svoji relativní pozici v~prostoru.
 
 Ruční řízení pomocí textových příkazů zasílaných terminálem není příliš uživatelsky příjemné. Vhodným rozšířením by tak bylo grafické uživatelské rozhraní pracující nad terminálem, které by přehledně zobrazovalo natočení plachty a koleček a údaje načítané ze senzorů, například směr větru, rychlost pohybu vůči zemi nebo ujetou vzdálenost. Také by umožňovalo intuitivní ovládání jednotlivých komponent bez nutnosti zkoumat, co jednotlivé příkazy znamenají.
 
-Uvažovali jsme také o bezdrátovém řízení pomocí komunikačních modulů dostupných k FITkitu (v pásmu 2,4\,GHz)\footnote{Viz \url{http://merlin.fit.vutbr.cz/FITkit/hardware.html}}. Ty jsou ovšem navrženy primárně pro FITkit verze 2, které se nám, přes veškerou naši snahu\footnote{Dokonce jsme za ně na Fitušce nabízeli pivo -- fiťáci mají pravděpodobně raději své hračky než alkohol.}, získat nepodařilo. Bylo by možné je použít i s FITkitem verze 1.2, se kterými jsme pracovali, ale pouze pokud bychom si vytvořili vlastní řídicí software\footnote{Hlavním důvodem je, že MCU na FITkitu 1.2 nepodporuje na jednom portu provozovat jak UART (pro komunikaci s terminálem) tak SPI (pro komunikaci s bezdrátovým modulem).}.
+Uvažovali jsme také o~bezdrátovém řízení pomocí komunikačních modulů dostupných k~FITkitu (v~pásmu 2,4\,GHz)\footnote{Viz \url{http://merlin.fit.vutbr.cz/FITkit/hardware.html}}. Ty jsou ovšem navrženy primárně pro FITkit verze 2, které se nám, přes veškerou naši snahu\footnote{Dokonce jsme za ně na Fitušce nabízeli pivo -- fiťáci mají pravděpodobně raději své hračky než alkohol.}, získat nepodařilo. Bylo by možné je použít i s~FITkitem verze 1.2, se kterými jsme pracovali, ale pouze pokud bychom si vytvořili vlastní řídicí software\footnote{Hlavním důvodem je, že MCU na FITkitu 1.2 nepodporuje na jednom portu provozovat jak UART (pro komunikaci s~terminálem) tak SPI (pro komunikaci s~bezdrátovým modulem).}.
 
 \subsection{Rozdělení práce}
 
-Celkově pro nás není lehké rozdělit projekt na části, u kterých bychom jednoznačně určili autora. Následující přehled tedy spíše zahrnuje oblasti, ve kterých účast jednoho z nás výrazně převažovala.
+Celkově pro nás není lehké rozdělit projekt na části, u~kterých bychom jednoznačně určili autora. Následující přehled tedy spíše zahrnuje oblasti, ve kterých účast jednoho z~nás výrazně převažovala.
 
 \begin{itemize}
   \item Aleš Horký -- konstrukce, senzory (konstrukce i komunikace), pájka\footnote{Včetně oprav odpadnutých špatně spájených drátků.}
   \item Michal Wiglasz -- konstrukce, ovládání servomotorů (FPGA i MCU)
 \end{itemize}
+
+%bibliografie
+\newpage
+\bibliographystyle{czechisoutf}
+\bibliography{dokumentace}
 
 \end{document}
