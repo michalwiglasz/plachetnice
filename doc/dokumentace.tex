@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Projekt:   SEN,ROB - Projekt - Automatická plachetnice                     %%
+%% Autors:    Ales Horky, xhorky17, FIT@VUTBR                                 %%
+%%            Michal Wiglazs, xwigla00, FIT@VUTBR                             %%
+%% Datum:     20.12.2012                                                      %%
+%% Verze:     1.0                                                             %%
+%% Formát:    LaTeX                                                           %%
+%% Kódování:  UTF-8                                                           %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%makra 
+\newcommand{\uv}[1]{\quotedblbase #1\textquotedblleft}
+
+\newcommand{\conLine}[1]{ \begin{description} \item[~~~~] \texttt{#1} \end{description}}
+
+%prebambule
+\documentclass[a4paper,11pt,onecolumn]{article}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage[total={16cm,23.5cm}, top=3cm, left=2.25cm]{geometry}
+
+\title{Automatická plachetnice}
+\author{Aleš Horký, Michal Wiglasz}
+\date{}
+
+
+%\frenchspacing 
+
+%telo
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+{\LARGE \textsc{Vysoké učení technické v~Brně\\}}
+{\Large \textsc{Fakulta informačních technologií\\}}
+
+\vspace{\stretch{0.382}}
+{\LARGE Dokumentace k~projektu do SEN a ROB\\ ~ \\}
+{\Huge Automatická plachetnice}
+\vspace{\stretch{0.618}}
+\end{center}
+{\Large Aleš Horký\\Michal Wiglasz \hfill
+\today\\}
+\end{titlepage}
+
+\section{Úvod}
+Našim cílem v~tomto projektu je vytvořit plachetnici, která umí autonomně natáčet své plachty do vhodného úhlu vzhledem k~aktuálnímu směru větru. Plachetnice by se díky tomu měla umět ve větru pohybovat v~prakticky libovolném směru a v~důsledku automaticky řízeného kormidla dosáhnout i určeného bodu. Protože je cílem postavit ukázkový prototyp a elektřina se s~vodou nemá moc ráda, bude plachetnice jezdit na kolečkách a po suchém povrchu. Navíc tak odpadnou problémy s~nakláněním v~důsledku tlaku větru a driftem\footnote{Drift plachtnice je síla, která ji unáší ve směru větru a proudu.}.
+
+Velký vliv na výběr tématu zadání měla plavba na plachetnici po Jadranu, kterou jsme podnikli těsně před začátkem semestru. Zde jsme přišli na to, že trimování plachet je na rekreační úrovni (dokud nepřijde 30uzlová vychřice) v~podstatě mechanická záležitost, a napadlo nás, že by ji bylo možné do jisté míry zautomatizovat. Rozhodli jsme se využít tohoto projektu, abychom tuto teorii ověřili na modelu.
+
+Protože nemáme s~modelářstvím téměř žádné zkušenosti, rozhodli jsme se vytvořit konstrukci ze stavebnic Merkur a Lego Technics. K~ovládání plachet se nám před započetím vývoje podařilo získat tři servomotory -- jeden větší Tower Pro 9805BB a dva menší HItec HS-422. Jako řidící jednotku robota jsme se rozhodli využít programovatelné zařízení FITkit, se kterým jediným máme letmé zkušenosti z~předchozích projektů.
+
+\section{Konstrukce}
+Jako nejjednodušší varianta se jevilo využít stavebnici Lego Technics. Z~ní jsme postavili první prototyp. Jednalo se o~jednoduchou kostru s~Ackermanovým podvozkem, na kterou byl připevněn stěžen o~přibližné výšce 40cm s~ráhnem o~délce asi 30cm. Mezi tyto dva díly jsme přišili plachtu ze syntetického pauzovacího papíru, o~kterém jsme se dozvěděli na modelářských fórech jako o~lehce dostupném materiálu pro výrobu plachet. Na tomto modelu jsme ověřili, že je schopen se pohybovat na vítr. Zjistili jsem však, že použitá Legová kolečka mají hrubý vzorek, který vytváří malý odpor, avšak i tento malý odpor už způsoboval problémy při rozjezdu. Při použití jiných, hladších koleček se situace zlepšila, ale odpor v~kolečkách stále nebyl dostatečně malý, aby se plachetnice pohybovala i proti směru větru.
+
+Ukázalo se však, že Lego není úplně vhodným stavebním materiálem. Jednak jsme zjistili, že je obtížné na něj připevnit FITkit a servomotory, druhak není příliš pevné a na pohled se zdálo, že by se silou serv\footnote{Zvlášť jsme měli obavy z~většího serva, které má točivý moment 25\,kg/cm.} mohlo polámat. Také stěžen se náporem větru mírně prohýbal, přičemž jsme do budoucna uvažovali o~ještě větší plachtě. Proto jsme se rozhodli pro stavbu druhého modelu ze stavebnice Merkur.
+
+Stavba z~Merkuru byla podstatně zdlouhavější (i za pomoci aku šroubováku), na druhou stranu však působila mnohem pevnějším dojmem. 
+
+
+Zjistili jsme, že rozteč děr v~dílech Merkuru neodopovídá rozteči úchytů na FITkitu ani serv. Naštěstí jsou v~Merkuru i dílky z~oválnými dírami, díky kterým se nám podařilo uchytit FITkit a větší servo, které ovládá stěžeň. Tím jsme ovšem všechny tyto dílky spotřebovali. 
+
+\section{Senzory}
+Robot zpracovává vstupy ze dvou senzorů. První z~nich je jednokanálový inkrementální optický enkodér používaný k~odometrii. Druhý je magnetický enkodér, který měří aktuální směr větru.
+
+\subsection{Optický enkokdér}
+Kvůli požadavku na autonomní řízení jsme potřebovali senzor, který by nám umožnil určit relativní pozici plachtenice v~prostoru. Jako vhodný prostředek se jevilo použití odometrie a inkrementálního enkodéru připevněného na hřídel nápravy. 
+
+Zprvu jsme chtěli zakoupit komerčně vyráběný enkodér, jehož zapojení by bylo jistě rychlé a jednoduché. Po shlédnutí nabídek několika obchodů jsme ale zjistili, že koupit vhodný a pro naše potřeby přijatelný enkodér, nebude možné. Největší úskalí bylo v~tom, že jsme požadovali takový enkodér, jehož připojení k~nápravě by nijak nezvyšovalo její otáčivý odpor. Většina levných enkodérů však pracovala na principu otáčení potenciometrem, který již z~principu při otáčení odpor produkuje. Ani u~optických nebo magnetických enkodérů jsme neměli jistotu, že s~nimi půjde otáčet dostatečně hladce. Jejich určení bylo totiž k~měření otáček motorů, kterým překonání jejich otáčivého odporu nečiní nejmenší problém. Rozhodli jsme se proto, že enkodér vytvoříme vlastními silami na optickém nereflexivním principu.
+
+Nejdříve jsme měli v~plánu zvýšit rychlost otáček převodovkou s~ozubenými koly z~Merkuru tak, abychom dosáhli přesnosti komerčních enkodérů. Po zdravé úvaze jsme ale dospěli k~závěru, že by se sice jednalo o~efektní řešení, které by ale zbytečně vytvářelo nechtěný odpor. Pro naše jednoduché měření nám totiž stačí jen enkodér s~minimálním rozlišením. Teoreticky by stačilo, když by enkodér dával impulz jednou za otáčku. Protože jsme se ale snažili vždy volit nejjednodušší variantu, připevnili jsme přímo na hřídel nápravy ještě menší kolečko z~Merkuru, které již obsahovalo 6 rovnoměrně rozmístěných děr. Rozlišení našeho enkodéru je tedy ve výsledku jeden impulz za každých $60^\circ$. To při poloměru kolečka !!!!!!ZMĚŘIT!!!!! odpovídá jednomu impulzu za každých uražených !!!! milimetrů.
+
+Elektronická část enkodéru se skládá z~fotodiody BPW34 (pracující ve viditelném světelném spektru) a modré supersvítivé LED, která se stará o~její osvit. Dioda je zapojena jako \emph{hradlový článek}, pracuje tedy jako zdroj napětí. Vhodnější by jistě bylo její zapojení jako \emph{spínací diody}, kdy by byla připojena na bázi tranzistoru. Zapojení jako hradlový článek totiž později provázely potíže, které se nám podařilo identifikovat až při jejich vyřešení. Zjistili jsme tak, že zapojení není úplně vhodné, ale protože bylo po korekcích (budou popsané později) funkční, tak jsme hradlové zapojení diody v~enkodéru ponechali.
+
+Aby bylo možné číst výstup senzoru pomocí portu FITkitu, potřebovali jsme zvýšit napětí generované fotodiodou. To je totiž i při silném osvitu přibližně $0.5$V, což je napětí, které běžný port MCU nerozliší od napětí nulového. Nevhodným řešením by jistě bylo použití ADC, proto jsme použili operační zesilovač !!!číslo!!!, který měl dynamický rozsah generovaných napětí zvyšovat v~intervalu $0-3.3$V. Pro vyhlazení hazardních stavů jsme navíc mezi OZ a MCU zapojili Schmittův klopný obvod HCF40106BE. Popsané schéma zapojení lze nalézt na obrázku~\ref{fig:schema1}.
+
+\begin{figure}[h]
+\centering 
+\includegraphics[width=10.0cm]{img/schema1.ps}
+\caption{Zapojení optického enkodéru.}
+\label{fig:schema1}
+\end{figure}
+
+Dioda
+
+Fotodioda
+
+fotorezistor
+
+Schéma
+
+\subsection{Magnetický enkodér}
+
+Magnet
+
+Schéma
+\section{Efektory}
+
+\subsection{Servomotory}
+Plachetnice je ovládána pomocí dvou nezávislých servomotorů -- jeden z~nich
+otáčí stěžněm, druhý je napojen na podvozek a řídí natočení zadních kol.
+
+Použité servomotory jsou řízeny pulsně šířkovou modulací (\emph{Pulse Width
+Modulation}, PWM). Na řídicí vodič jsou posílány pulsy s~periodou $20\,ms$. Šířka
+pulsu pak určuje natočení hřídele servomotoru a pohybuje se mezi $500$ a
+$2\,500\,\mu{}s$. \cite{modelarska_stranka_dohledam_doma}
+
+Samotné generování pulsů je řešeno řadičem implementovaným na FPGA poli na % poli na -> poli ve
+FITkitu a je nezávislé na práci mikrokontroléru, odpadá tedy starost s~přesným
+časováním. Generátor se skládá z~volně běžícího čítače a dvou komparátorů. Tento
+celek je implementován jako samostatná komponenta \texttt{PWM}. Na její vstup %komponenta -> komponenta s názvem
+jsou připojeny dva registry, se kterými je porovnávána hodnota čítače. Po resetu
+(spuštění) zařízení je na výstupu generátoru logická 1. Jakmile čítač dosáhne
+hodnoty prvního z~registrů, je výstup překlopen na logickou 0. Po dosažení
+hodnoty druhého registru se čítač vynuluje, na výstup se nastaví logická 1 a
+celý cyklus se opakuje.
+
+Pro komunikaci s~mikrokontrolérem se používá komunikační systém FITkitu,
+postavený nad sběrnicí SPI\cite{fitkit_communication}. Implementačně je blok SPI
+dekodéru, dvou registrů\footnote{Přesněji se jedná o~celistvý blok dvou registrů
+s~multiplexovaným vstupem a výstupem a zároveň oddělenými výstupy pro každý z
+registrů, jedná se o~komponentu \texttt{servo\_ctrl\_reg}.} (pro nastavení střídy
+a periody) a vytvořené komponenty \texttt{PWM} zapouzdřen do další komponenty,
+nazvané \texttt{Servo}. Generátor PWM je v~této komponentě obsažen dvakrát --
+druhý z~nich ovšem pracuje s~periodou i střídou vynásobenou !!!!kolikrat!!!! a jeho
+výstup je možné připojit na LED diodu\footnote{Jedná se o~výstup \texttt{LED}
+komponenty \texttt{Servo}.}. Při vývoji se tak dá orientačně kontrolovat, zda
+vše pracuje dle očekávání\footnote{Navíc při chybém výstupu (například při
+trvalé hodnotě 1 nebo 0) se LED nepoškodí, narozdíl od servomotoru, který se
+může spálit, čehož jsme několikrát využili při hledání chyb v~implementaci}.
+
+Řadiči je nutno přidělit adresu v~rámci komunikačního systému, přes kterou mu
+jsou zasílány hodnoty periody (pouze při resetu zařízení) a střídy (v~případě
+potřeby). Uložené hodnoty lze také číst. Platí, že na určené adrese je
+zpřístupněn registr obsahující délku periodu, na adrese zvýšené o~jedničku pak
+registr s~délkou střídy. Obě hodnoty vyjadřují počet taktů.
+
+Generátory signálu PWM lze také v~případě potřeby vypínat. K~tomu slouží vstup
+řadiče EN, který je aktivní v~logické 1.
+
+Tento řadič využíváme dvakrát -- každý obsluhuje jeden servomotor. Pro práci na
+staraně mikrokontroléru jsou vytvořeny pomocné funkce (implementované v
+\texttt{servo.h}), které kromě komunikace s~řadičem zajišťují také přepočet
+údajů v~mikrosekundách na počet taktů (při taktovací frekvenci 40\,Hz).
+
+Při použitém taktu FPGA 40\,Hz je pro dosažení požadované periody 20\,ms, neboli
+400~tisíc taktů, potřeba alespoň 19bitový čítač, a tedy i 19bitové regitry pro
+nastavení hodnot komparátorů. Protože je ale mikrokontrolér FITkitu pouze
+16bitový, museli jsme snížit počet přenášených bitů. Jako rozumná se ukázala
+datová šířka 12 bitů -- u~převodů z~mikrosekund by totiž při větší šířce slova
+mohlo dojít k~přetečení. Dolních sedm bitů je vždy nastaveno na nulu. Ztráta
+přesnosti je pro naše účely zanedbatelná.
+
+Pro případné vypnutí servomotoru je v~hlavní entitě implementovaného HW zaveden
+kontrolní 16bitový registr. Z~něj jsou využity pouze dva nejspodnější bity,
+každý z~nich je připojen na vstup EN příslušného řadiče. Ostatní bity jsou v
+tuto chvíli bez využití, ale uvažovali jsme například o~řízení osvětlení
+plachetnice pro noční \uv{plavby} -- stačí pouze příslušné bity vyvést na
+sběrnici X (konektor JP !!!!nevimkolik!!!!).
+
+
+
+Čmáranice! Bitové posuny, šířky sběrnic atd. nevím, nemám aktuální kód.
+
+
+\begin{figure}[h]
+\centering
+\begin{Verbatim}
+  |--- Servo ------------------------------------------------------------------|
+  |                                                                            |
+  |             |----- SPI_adc -----|        |--- servo_ctrl_reg ---|          |
+--| CLK --------| CLK          ADDR |(0)-----| MUX        DOUT_FLIP |-----.    |
+--| CS ---------| CS       DATA_OUT |--------| DIN         DOUT_MAX |--.  |    |
+--| DO ---------| DO        DATA_IN |--------| DOUT                 |  |  |    |
+--| DI ---------| DI       WRITE_EN |--------| WE                   |  |  |    |
+--| DI_REQ -----| DI_REQ    READ_EN |--   .--| RESET                |  |  |    |
+--| RESET       |-------------------|     |  |----------------------|  |  |    |
+--| EN                                    |                            |  |    |
+  |                            RESET<-----|                            |  |    |
+  |                                                                    |  |    |
+  |              |--- PWM (xx bits) ---|                               |  |    |
+  |        CLK<--| CLK         MAX_VAL |-(x << ?)----------------------o  |    |
+  |      RESET<--| RESET      FLIP_VAL |-(x << ?)----------------------)--o    |
+--| DOUT --------| DOUT             EN |---->EN                        |  |    |
+  |              |---------------------|                               |  |    |
+  |                                                                    |  |    |
+  |                                                                    |  |    |
+  |                                                                    |  |    |
+  |              |--- PWM (19 bits) ---|                               |  |    |
+  |        CLK<--| CLK         MAX_VAL |-(x << ?)----------------------'  |    |
+  |      RESET<--| RESET      FLIP_VAL |-(x << ?)-------------------------'    |
+--| LED ---------| DOUT             EN |---->EN                                |
+  |              |---------------------|                                       |
+  |                                                                            |
+  |----------------------------------------------------------------------------|
+\end{Verbatim}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{Verbatim}
+  |--- TOP ---------------------------------|
+  |                                         |
+  |             |---- Servo ----|           |
+--| CLK --------| CLK      DOUT |---- X(16) |--
+--| CS ---------| CS        LED |-----X(??) |--
+--| DO ---------| DO            |           |
+--| DI ---------| DI            |           |
+--| DI_REQ -----| DI_REQ        |           |
+--| RESET ------| RESET         |           |
+  |           --| EN            |           |
+  |             |---------------|           |
+  |                                         |
+  |                                         |
+  |             |---- Servo ----|           |
+  |      CLK <--| CLK      DOUT |---- X(??) |--
+  |       CS <--| CS        LED |---- X(??) |--
+  |       DO <--| DO            |           |
+  |       DI <--| DI            |           |
+  |   DI_REQ <--| DI_REQ        |           |
+  |    RESET <--| RESET         |           |
+  |           --| EN            |           |
+  |             |---------------|           |
+  |                                         |
+  |-----------------------------------------|
+\end{Verbatim}
+\end{figure}
+
+V~TOP je ještě jeden SPI\_adc napojený na 16bit registr, který je zčásti vyvedený
+na X + dolní dva bity na vstupy EN serv. Dohledat v~kódu.
+
+
+%osvětlení?
+
+\section{Řídicí software}
+Bezdrátová komunikace FITkit-FITkit\footnote{Dokonce jsme za něj na Fitušce nabízeli pivo -- očividně fiťáci mají raději své hračky než alkohol.}.
+
+\section{Závěr}
+
+\end{document}
+
+
+
+
+
+
+
+
