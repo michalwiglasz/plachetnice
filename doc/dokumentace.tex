@@ -49,7 +49,7 @@
 \end{titlepage}
 
 \section{Úvod}
-Našim cílem v~tomto projektu je vytvořit plachetnici, která umí autonomně natáčet své plachty do vhodného úhlu vzhledem k~aktuálnímu směru větru. Plachetnice by se díky tomu měla umět ve větru pohybovat v~prakticky libovolném směru a v~důsledku automaticky řízeného kormidla dosáhnout i určeného bodu. Protože je cílem postavit ukázkový prototyp a elektřina se s~vodou nemá moc ráda, bude plachetnice jezdit na kolečkách a po suchém povrchu. Navíc tak odpadnou problémy s~nakláněním v~důsledku tlaku větru a driftem\footnote{Drift plachtnice je síla, která ji unáší ve směru větru a proudu.}.
+Našim cílem v~tomto projektu je vytvořit plachetnici, která umí autonomně natáčet své plachty do vhodného úhlu vzhledem k~aktuálnímu směru větru. Plachetnice by se díky tomu měla umět ve větru pohybovat v~prakticky libovolném směru a v~důsledku automaticky řízeného kormidla dosáhnout i určeného bodu. Protože je cílem postavit ukázkový prototyp a elektřina se s~vodou nemá moc ráda, bude plachetnice jezdit na kolečkách a po suchém povrchu. Navíc tak odpadnou problémy s~nakláněním v~důsledku tlaku větru a driftu\footnote{Drift plachetnice je síla, která ji unáší ve směru větru a proudu.}.
 
 Velký vliv na výběr tématu zadání měla plavba na plachetnici po Jadranu, kterou jsme podnikli těsně před začátkem semestru. Zde jsme přišli na to, že trimování plachet je na rekreační úrovni (dokud nepřijde 30uzlová vychřice) v~podstatě mechanická záležitost, a napadlo nás, že by ji bylo možné do jisté míry zautomatizovat. Rozhodli jsme se využít tohoto projektu, abychom tuto teorii ověřili na modelu.
 
@@ -276,11 +276,16 @@ také přepočet údajů v~mikrosekundách na počet taktů (při taktovací fre
 
 Řízení plachetnice je plně automatické. Na základě údajů získaných z korouhvičky (tedy magnetického enkodéru) se upravuje střída PWM signálu servomotoru, který ovládá stěžen. !!!!!!!!!!!DOPLNIT!!!!!!!!!!!!!
 
-Do řízení je možné zasahovat i ručně. Původní ideu přehledného grafického rozhraní jsme bohužel nestihli zrealizovat. Robota tak lze ovládat pouze pomocí textového terminálu. Jednotlivými příkazy lze nastavovat úhel natočení obou serv, lze je zapínat nebo vypínat a také existují příkazy pro přímý přístup do dolních 9 bitů řídicího registru. Kompletní seznam příkazů se zobrazí příkazem \texttt{HELP}, zde jej neuvádíme.
-
-Uvažovali jsme také o bezdrátovém řízení pomocí komunikačních modulů dostupných k FITkitu (v pásmu 2,4\,GHz)\footnote{Viz \url{http://merlin.fit.vutbr.cz/FITkit/hardware.html}}. Ty jsou ovšem navrženy primárně pro FITkit verze 2, které se nám, přes veškerou naši snahu\footnote{Dokonce jsme za ně na Fitušce nabízeli pivo -- očividně fiťáci mají raději své hračky než alkohol.}, získat nepodařilo. Bylo by možné je použít i s FITkitem verze 1.2, se kterými jsme pracovali, ale pouze pokud bychom si vytvořili vlastní řídicí software\footnote{Hlavním důvodem je, že MCU na FITkitu 1.2 nepodporuje na jednom portu provozovat jak UART (pro komunikaci s terminálem) tak SPI (pro komunikaci s bezdrátovým modulem).}.
+Do řízení je možné zasahovat i ručně pomocí textového terminálu. Jednotlivými příkazy lze nastavovat úhel natočení obou serv, lze je zapínat nebo vypínat a také existují příkazy pro přímý přístup do dolních 9 bitů řídicího registru. Kompletní seznam příkazů se zobrazí příkazem \texttt{HELP}, zde jej neuvádíme.
 
 \section{Závěr}
+
+!!!!!!!!!!DOPLNIT!!!!!!!!!
+Vytvořený model plachetnice se umí autonomně pohybovat ve větru.
+
+Ruční řízení pomocí textových příkazů zasílaných terminálem není příliš uživatelsky příjemné. Vhodným rozšířením by tak bylo grafické uživatelské rozhraní pracující nad terminálem, které by přehledně zobrazovalo natočení plachty a koleček a údaje načítané ze senzorů, například směr větru, rychlost pohybu vůči zemi nebo ujetou vzdálenost. Také by umožňovalo intuitivní ovládání jednotlivých komponent bez nutnosti zkoumat, co jednotlivé příkazy znamenají.
+
+Uvažovali jsme také o bezdrátovém řízení pomocí komunikačních modulů dostupných k FITkitu (v pásmu 2,4\,GHz)\footnote{Viz \url{http://merlin.fit.vutbr.cz/FITkit/hardware.html}}. Ty jsou ovšem navrženy primárně pro FITkit verze 2, které se nám, přes veškerou naši snahu\footnote{Dokonce jsme za ně na Fitušce nabízeli pivo -- fiťáci mají pravděpodobně raději své hračky než alkohol.}, získat nepodařilo. Bylo by možné je použít i s FITkitem verze 1.2, se kterými jsme pracovali, ale pouze pokud bychom si vytvořili vlastní řídicí software\footnote{Hlavním důvodem je, že MCU na FITkitu 1.2 nepodporuje na jednom portu provozovat jak UART (pro komunikaci s terminálem) tak SPI (pro komunikaci s bezdrátovým modulem).}.
 
 \subsection{Rozdělení práce}
 
