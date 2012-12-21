@@ -268,27 +268,21 @@ a čtení hodnot je opět realizováno pomocí sběrnice SPI\footnote{Komponenta
 \end{Verbatim}
 \end{figure}
 
-
-%osvětlení?
-
 \section{Řídicí software}
-Bezdrátová komunikace FITkit-FITkit\footnote{Dokonce jsme za něj na Fitušce nabízeli pivo -- očividně fiťáci mají raději své hračky než alkohol.}.
+
+Řízení plachetnice je plně automatické. Na základě údajů získaných z korouhvičky (tedy magnetického enkodéru) se upravuje střída PWM signálu servomotoru, který ovládá stěžen. !!!!!!!!!!!DOPLNIT!!!!!!!!!!!!!
+
+Do řízení je možné zasahovat i ručně. Původní ideu přehledného grafického rozhraní jsme bohužel nestihli zrealizovat. Robota tak lze ovládat pouze pomocí textového terminálu. Jednotlivými příkazy lze nastavovat úhel natočení obou serv, lze je zapínat nebo vypínat a také existují příkazy pro přímý přístup do dolních 9 bitů řídicího registru. Kompletní seznam příkazů se zobrazí příkazem \texttt{HELP}, zde jej neuvádíme.
+
+Uvažovali jsme také o bezdrátovém řízení pomocí komunikačních modulů dostupných k FITkitu (v pásmu 2,4\,GHz)\footnote{Viz \url{http://merlin.fit.vutbr.cz/FITkit/hardware.html}}. Ty jsou ovšem navrženy primárně pro FITkit verze 2, které se nám, přes veškerou naši snahu\footnote{Dokonce jsme za ně na Fitušce nabízeli pivo -- očividně fiťáci mají raději své hračky než alkohol.}, získat nepodařilo. Bylo by možné je použít i s FITkitem verze 1.2, se kterými jsme pracovali, ale pouze pokud bychom si vytvořili vlastní řídicí software\footnote{Hlavním důvodem je, že MCU na FITkitu 1.2 nepodporuje na jednom portu provozovat jak UART (pro komunikaci s terminálem) tak SPI (pro komunikaci s bezdrátovým modulem).}.
 
 \section{Závěr}
 
 \subsection{Rozdělení práce}
 
 \begin{itemize}
-\item Aleš Horký -- konstrukce, senzory, pájka,
-\item Michal Wiglasz -- konstrukce, ovládání servomotorů,
+  \item Aleš Horký -- konstrukce, senzory (konstrukce i komunikace), pájka\footnote{včetně oprav odpadnutých špatně spájených drátků}
+  \item Michal Wiglasz -- konstrukce, ovládání servomotorů (FPGA i MCU)
 \end{itemize}
 
 \end{document}
-
-
-
-
-
-
-
-
