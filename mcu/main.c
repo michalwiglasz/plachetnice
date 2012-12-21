@@ -38,8 +38,44 @@ void print_info();
 *******************************************************************************/
 void print_user_help(void)
 {
-  term_send_str("Plachetnice:"); //Vypis retezce na terminal
-  term_send_crlf();        //Prechod na novy radek
+  term_send_str("Plachetnice:");
+  term_send_crlf();
+  term_send_str("BSx = nastav bit x ridiciho registru na 1");
+  term_send_crlf();
+  term_send_str("BCx = vynuluj bit x ridiciho registru");
+  term_send_crlf();
+  term_send_str("BGx = vypis hodnotu bitu x ridiciho registru");
+  term_send_crlf();
+  term_send_str("MWxxx = nastav stridu serva stezne na xxx");
+  term_send_crlf();
+  term_send_str("ML = otoc stezen doleva");
+  term_send_crlf();
+  term_send_str("MC = otoc stezen na stred");
+  term_send_crlf();
+  term_send_str("MR = otoc stezen doprava");
+  term_send_crlf();
+  term_send_str("MN = zapni servo stezne (oN)");
+  term_send_crlf();
+  term_send_str("MF = vypni servo stezne (oFF)");
+  term_send_crlf();
+  term_send_str("Mxx = otoc stezen na uhel xx (ve stupnich)");
+  term_send_crlf();
+  term_send_str("WWxxx = nastav stridu serva kolecek na xxx");
+  term_send_crlf();
+  term_send_str("WL = otoc kolecka doleva");
+  term_send_crlf();
+  term_send_str("WC = otoc kolecka na stred");
+  term_send_crlf();
+  term_send_str("WR = otoc kolecka doprava");
+  term_send_crlf();
+  term_send_str("WN = zapni servo kolecek (oN)");
+  term_send_crlf();
+  term_send_str("WF = vypni servo kolecek (oFF)");
+  term_send_crlf();
+  term_send_str("Wxx = otoc kolecka na uhel xx (ve stupnich)");
+  term_send_crlf();
+  term_send_str("I = vypis informace o stavu");
+  term_send_crlf();
 }
 
 /*******************************************************************************
@@ -275,7 +311,7 @@ int main(void)
 
       term_send_str("(");
       term_send_num(res);
-      term_send_str(")");  
+      term_send_str(")");
 
        term_send_str("\n");
        readedBits = 0;
@@ -291,14 +327,14 @@ int main(void)
 
 /*    if(mem % 50 == 0) {
       set_led_3(0);
-      set_led_2(1);      
+      set_led_2(1);
     }
     if(mem % 100 == 0) {
       mem = 0;
       set_led_3(1);
       set_led_2(0);
     }*/
-    
+
 
 
     //sensors_put_bit(2, sensors_get_optical());
