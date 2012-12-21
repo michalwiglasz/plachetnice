@@ -51,8 +51,9 @@ architecture main of tlv_gp_ifc is
 
 begin
 
-    X(45 downto 44) <= ctrl_reg(15 downto 14);
-    X(43 downto 34) <= ctrl_reg(9 downto 0);
+   X(45 downto 44) <= ctrl_reg(15 downto 14);
+   X(43 downto 34) <= ctrl_reg(9 downto 0);
+
 
    ctrl: register_spi
      generic map (

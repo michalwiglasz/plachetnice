@@ -2,6 +2,7 @@
 #include <fitkitlib.h>
 #include "servo.h"
 #include "ctrl_reg.h"
+#include "sensors.h"
 
 // stezen
 servo_t s_mast = {
@@ -215,9 +216,93 @@ int main(void)
   delay_ms(100);
   print_info();
 
+  set_mag_cs(1);
+  set_mag_clk(1);
+  unsigned clkVal = 1;
+
   while (1) {
     delay_ms(10);
     terminal_idle();  // obsluha terminalu
+
+    set_led_d6(sensors_get_optical());
+    //set_led_d5(!sensors_get_optical());
+    set_led_d5(sensors_get_bit(4));
+
+    /*
+      phase meaning:
+      1: CS = 0
+      2-50: CS = 0
+    */
+    static unsigned char phase = 0;
+    static unsigned char readedBits = 0;
+    static char resultVal[13];
+    phase++;
+
+    if(phase == 1) {
+      set_mag_cs(0);
+    }
+    if(1 < phase && phase <= 37) {
+      if(clkVal == 0) {
+        clkVal = 1;
+      } else {
+        clkVal = 0;
+        if(phase > 2) {
+          unsigned char value = sensors_get_bit(4);
+          term_send_num(value);
+
+          if(readedBits < 12) {
+            resultVal[readedBits] = value + '0';
+          }
+
+          readedBits++;
+          if(readedBits % 12 == 0) {
+            term_send_str(" ");
+          }
+        }
+      }
+      set_mag_clk(clkVal);
+    }
+    if(phase == 38) {
+       term_send_num(sensors_get_bit(4)); //parity
+       set_mag_cs(1);
+
+      resultVal[12] = '\0';
+      int res = strtoul(resultVal,NULL,2) / 11.3777778;
+
+      if(res > 180) {
+        res = -(180 - (res - 180));
+      }
+
+      term_send_str("(");
+      term_send_num(res);
+      term_send_str(")");  
+
+       term_send_str("\n");
+       readedBits = 0;
+
+       servo_set_width(&s_mast, s_mast.center - (res/180.0)*(s_mast.right - s_mast.left)/2 );
+
+    }
+    if(phase == 40) {
+       phase = 0;
+    }
+
+
+
+/*    if(mem % 50 == 0) {
+      set_led_3(0);
+      set_led_2(1);      
+    }
+    if(mem % 100 == 0) {
+      mem = 0;
+      set_led_3(1);
+      set_led_2(0);
+    }*/
+    
+
+
+    //sensors_put_bit(2, sensors_get_optical());
+    //sensors_put_bit(3, sensors_get_optical());
   }
 }
 
